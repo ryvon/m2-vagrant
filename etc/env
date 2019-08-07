@@ -1,5 +1,6 @@
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
+export VAGRANT_ROOT="/vagrant"
 
 export MAGENTO_HOST="magento2.vagrant"
