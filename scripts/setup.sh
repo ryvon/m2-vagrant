@@ -8,8 +8,6 @@ SETUP_LOG="${VAGRANT_ROOT}/log/setup"
 export SETUP_LOG
 export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
 
-rm "${SETUP_LOG}*"
-
 echo "Started $(date)" >"${SETUP_LOG}"
 
 # shellcheck source=scripts/setup/update.sh
