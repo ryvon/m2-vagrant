@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   config.hostmanager.manage_host = true
 
   config.vm.define 'm2-vagrant' do |node|
-    node.vm.hostname = ENV['MAGENTO_HOST']
+    node.vm.hostname = ENV['VAGRANT_HOST']
     node.vm.network :private_network, ip: ENV['VAGRANT_IP']
 
 	node.vm.synced_folder '.', '/vagrant', type: 'virtualbox'

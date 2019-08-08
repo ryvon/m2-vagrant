@@ -1,0 +1,27 @@
+<Macro VHostCommon>
+    DocumentRoot "[APACHE_ROOT]"
+    ServerName [VAGRANT_HOST]
+    <Directory "[APACHE_ROOT]">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    ErrorLog "${APACHE_LOG_DIR}/error.log"
+    CustomLog "${APACHE_LOG_DIR}/access.log" common
+</Macro>
+
+<VirtualHost *:80>
+	Use VHostCommon
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        Use VHostCommon
+
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/certs/ssl-cert-snakeoil.pem
+        SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
+    </VirtualHost>
+</IfModule>
+
+UndefMacro VHostCommon

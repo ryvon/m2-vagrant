@@ -16,4 +16,7 @@ echo "Started $(date)" >"${SETUP_LOG}"
 # shellcheck source=scripts/setup/system-tools.sh
 . "${VAGRANT_ROOT}/scripts/setup/system-tools.sh"
 
+# shellcheck source=scripts/setup/apache.sh
+. "${VAGRANT_ROOT}/scripts/setup/apache.sh"
+
 echo "Finished $(date)" >>"${SETUP_LOG}"
