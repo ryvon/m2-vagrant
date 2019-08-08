@@ -10,3 +10,6 @@ export APACHE_ROOT="/var/www/html"
 export MYSQL_DATABASE="magento"
 export MYSQL_USER="magento"
 export MYSQL_PASSWORD="magentoMysqlPassword"
+
+export COMPOSER_HOME="/home/vagrant/.composer"
+export COMPOSER_BIN="/usr/local/bin/composer"

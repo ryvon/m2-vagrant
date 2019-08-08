@@ -1,3 +1,5 @@
 .composer
 .idea
 .vagrant
+
+etc/composer/auth.json

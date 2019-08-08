@@ -30,3 +30,6 @@ fi
 
 # shellcheck source=scripts/setup/mailhog.sh
 . "${VAGRANT_ROOT}/scripts/setup/mailhog.sh"
+
+# shellcheck source=scripts/setup/composer.sh
+. "${VAGRANT_ROOT}/scripts/setup/composer.sh"
