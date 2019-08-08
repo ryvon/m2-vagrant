@@ -3,7 +3,7 @@ set -e
 
 [[ -z ${SETUP_LOG} ]] && exit 1
 
-echo Updating system
+echo "Updating system"
 {
   apt-get update
   apt-get -y upgrade
