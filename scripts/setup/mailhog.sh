@@ -29,4 +29,5 @@ echo "Installing mailhog"
   phpenmod mailhog
 
   service mailhog start
+  service apache2 restart
 } >>"${SETUP_LOG}"
