@@ -7,4 +7,4 @@ echo Installing system tools
 {
   apt-get -y install apt-transport-https bash-completion ca-certificates curl \
     git lsb-release unzip zip
-}>"${SETUP_LOG}-system-tools"
+} >>"${SETUP_LOG}"

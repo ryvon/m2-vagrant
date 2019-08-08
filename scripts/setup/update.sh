@@ -7,4 +7,4 @@ echo Updating system
 {
   apt-get update
   apt-get -y upgrade
-}>"${SETUP_LOG}-update"
+} >>"${SETUP_LOG}"

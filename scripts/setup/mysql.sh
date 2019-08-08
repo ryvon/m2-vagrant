@@ -18,4 +18,4 @@ FLUSH PRIVILEGES;
 EOSQL
 
   service mysql restart
-} >"${SETUP_LOG}-mysql"
+} >>"${SETUP_LOG}"

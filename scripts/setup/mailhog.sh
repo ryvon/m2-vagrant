@@ -29,4 +29,4 @@ echo "Installing mailhog"
   phpenmod mailhog
 
   service mailhog start
-} >"${SETUP_LOG}-mailhog"
+} >>"${SETUP_LOG}"

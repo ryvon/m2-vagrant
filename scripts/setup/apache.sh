@@ -52,4 +52,4 @@ echo "Installing apache2"
   chmod 644 /var/log/apache2/*
 
   service apache2 start
-} >"${SETUP_LOG}-apache"
+} >>"${SETUP_LOG}"

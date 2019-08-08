@@ -4,9 +4,14 @@ source /vagrant/etc/env
 
 [[ -z ${VAGRANT_ROOT} ]] && exit 1
 
-SETUP_LOG="${VAGRANT_ROOT}/log/setup"
+SETUP_LOG="${VAGRANT_ROOT}/log/setup.log"
+
 export SETUP_LOG
 export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
+
+if [[ -f ${SETUP_LOG} ]]; then
+  rm "${SETUP_LOG}"
+fi
 
 # shellcheck source=scripts/setup/update.sh
 . "${VAGRANT_ROOT}/scripts/setup/update.sh"
