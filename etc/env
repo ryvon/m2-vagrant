@@ -6,3 +6,7 @@ export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
 
 export APACHE_ROOT="/var/www/html"
+
+export MYSQL_DATABASE="magento"
+export MYSQL_USER="magento"
+export MYSQL_PASSWORD="magentoMysqlPassword"
