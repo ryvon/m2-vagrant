@@ -7,9 +7,13 @@ echo "Installing apache2"
 {
   apt-get -y install apache2
   service apache2 stop
-  a2enmod ssl
-  a2enmod rewrite
-  a2enmod macro
+  a2enmod ssl rewrite macro
+
+  # Substitute is to add a base href in the mailhog source, headers is to ensure it is run
+  a2enmod substitute headers
+
+  # We proxy mailhog requests which requires both http and websocket proxies
+  a2enmod proxy proxy_http proxy_wstunnel
 
   # shellcheck disable=SC2035
   a2dissite *
