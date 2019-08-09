@@ -18,3 +18,11 @@ export MAGENTO_REPO_NAME="magento/project-community-edition"
 export MAGENTO_REPO_URL="https://repo.magento.com/"
 export MAGENTO_REPO_VERSION="2.2.9"
 export MAGENTO_SAMPLE_DATA_VERSION="2.2"
+
+export MAGENTO_BASE_URL="https://${VAGRANT_HOST}/"
+export MAGENTO_ADMIN_URI="admin"
+
+export MAGENTO_ADMIN_EMAIL="admin@example.com"
+export MAGENTO_ADMIN_USER="admin"
+export MAGENTO_ADMIN_PASSWORD="admin123"
+export MAGENTO_TIMEZONE="America/New_York"

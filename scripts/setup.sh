@@ -34,3 +34,6 @@ fi
 
 # shellcheck source=scripts/setup/composer.sh
 . "${VAGRANT_ROOT}/scripts/setup/composer.sh"
+
+# shellcheck source=scripts/setup/magento.sh
+. "${VAGRANT_ROOT}/scripts/setup/magento.sh"
