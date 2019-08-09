@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source /vagrant/etc/env
+. /vagrant/etc/env
 
 [[ -z ${VAGRANT_ROOT} ]] && exit 1
 
