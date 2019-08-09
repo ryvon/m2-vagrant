@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
     node.vm.hostname = ENV['VAGRANT_HOST']
     node.vm.network :private_network, ip: ENV['VAGRANT_IP']
 
-	node.vm.synced_folder '.', '/vagrant', type: 'virtualbox'
+    node.vm.synced_folder '.', '/vagrant', type: 'virtualbox'
 
     node.vm.provider 'virtualbox' do |vb|
       vb.memory = ENV['VAGRANT_MEMORY']
