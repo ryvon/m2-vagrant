@@ -33,9 +33,9 @@ echo "Installing Magento"
     exit 1
   fi
 
-  su vagrant -c $'cp -R "${SAMPLE_DATA_ROOT}/app/" "${APACHE_ROOT}"'
-  su vagrant -c $'cp -R "${SAMPLE_DATA_ROOT}/pub/" "${APACHE_ROOT}"'
-  su vagrant -c $'cp -R "${SAMPLE_DATA_ROOT}/dev/" "${APACHE_ROOT}"'
+  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${APACHE_ROOT}'"
+  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
+  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/dev/' '${APACHE_ROOT}'"
 
   echo " - Clearing database" >&2
   mysql -u root <<EOSQL
