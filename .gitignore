@@ -3,3 +3,7 @@
 .vagrant
 
 etc/composer/auth.json
+
+archive
+magento2
+magento2-sample-data
