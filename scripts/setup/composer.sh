@@ -5,7 +5,7 @@
 echo "Installing composer"
 {
   if [[ ! -x ${COMPOSER_BIN} ]]; then
-    echo "Installing composer to ${COMPOSER_BIN}"
+    echo " - Installing composer to ${COMPOSER_BIN}" >&2
 
     EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -13,7 +13,7 @@ echo "Installing composer"
 
     if [[ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]]; then
       rm -f composer-setup.php
-      echo "Invalid composer installer signature"
+      echo " - Invalid composer installer signature" >&2
       exit 1
     fi
 
@@ -23,7 +23,7 @@ echo "Installing composer"
     rm -f composer-setup.php
 
     if [[ ! ${RESULT} -eq 0 ]]; then
-      echo "Failed to install"
+      echo " - Failed to install" >&2
       exit 1
     fi
 
@@ -35,7 +35,7 @@ echo "Installing composer"
   COMPOSER_AUTH_HOME="${COMPOSER_HOME}/auth.json"
 
   if [[ -f ${COMPOSER_AUTH_JSON} ]] && [[ ! -f ${COMPOSER_AUTH_HOME} ]]; then
-    echo "Installing composer auth config to ${COMPOSER_AUTH_HOME}"
+    echo " - Installing composer auth config to ${COMPOSER_AUTH_HOME}" >&2
 
     if [[ ! -d ${COMPOSER_HOME} ]]; then
       mkdir "${COMPOSER_HOME}"
