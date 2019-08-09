@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 [[ -z ${SETUP_LOG} ]] && exit 1
 
