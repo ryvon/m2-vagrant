@@ -29,7 +29,7 @@ if [[ ! -f "${MAGENTO_ROOT}/composer.json" ]]; then
     create-project "${MAGENTO_REPO_REQUEST}" "${MAGENTO_ROOT}" \
     --repository-url="${MAGENTO_REPO_URL}"
   if [[ $? -ne 0 ]]; then
-    echo "Failed to download Magento"
+    echo " - Failed to download Magento"
     exit 1
   fi
 fi
@@ -40,18 +40,18 @@ if [[ ! -f "${VAGRANT_ROOT}/archive/${CURRENT_MAGENTO_ARCHIVE}" ]]; then
   echo "Archiving Magento from '${MAGENTO_ROOT}' to '${VAGRANT_ROOT}/archive/${CURRENT_MAGENTO_ARCHIVE}'"
 
   pushd "${MAGENTO_ROOT}" >/dev/null || {
-    echo "Failed to change directory"
+    echo " - Failed to change directory"
     exit 1
   }
   tar cf "../archive/${CURRENT_MAGENTO_ARCHIVE}" .
   RESULT=$?
   popd >/dev/null || {
-    echo "Failed to change directory"
+    echo " - Failed to change directory"
     exit 1
   }
 
   if [[ ${RESULT} -ne 0 ]]; then
-    echo "Failed to create Magento archive"
+    echo " - Failed to create Magento archive"
     exit 1
   fi
 else
@@ -69,7 +69,7 @@ if [[ ! -d "${SAMPLE_DATA_ROOT}" ]]; then
   fi
 
   if [[ $? -ne 0 ]]; then
-    echo "Failed to download Magento Sample Data"
+    echo " - Failed to download Magento Sample Data"
     exit 1
   fi
 fi
@@ -79,18 +79,18 @@ if [[ ! -f "${VAGRANT_ROOT}/archive/${CURRENT_SAMPLE_DATA_ARCHIVE}" ]]; then
   echo "Archiving sample data from '${SAMPLE_DATA_ROOT}' to '${VAGRANT_ROOT}/archive/${CURRENT_SAMPLE_DATA_ARCHIVE}'"
 
   pushd "${SAMPLE_DATA_ROOT}" >/dev/null || {
-    echo "Failed to change directory"
+    echo " - Failed to change directory"
     exit 1
   }
   tar cf "../archive/${CURRENT_SAMPLE_DATA_ARCHIVE}" .
   RESULT=$?
   popd >/dev/null || {
-    echo "Failed to change directory"
+    echo " - Failed to change directory"
     exit 1
   }
 
   if [[ ${RESULT} -ne 0 ]]; then
-    echo "Failed to create sample data archive"
+    echo " - Failed to create sample data archive"
     exit 1
   fi
 else
