@@ -14,13 +14,14 @@ service mailhog restart
 service mysql restart
 service apache2 restart
 
+echo "Checking site status"
 # If running through bash in Windows we don't use the same hosts file that gets updated by hostmanager.  We use the IP
 # specifying the Host header to get around that.
 HOME_PAGE_CONTENT="$(curl --silent --show-error --location --max-time 20 --connect-timeout 20 --header "Host: ${VAGRANT_HOST}" --insecure "https://${VAGRANT_IP}/")"
 if [[ ${HOME_PAGE_CONTENT} =~ ${MAGENTO_SEARCH_PATTERN} ]]; then
-  echo "Site test successful"
+  echo " - Magento found"
 else
-  echo "Failed to load site"
+  echo " - Failed to load site"
 fi
 
 echo " - Frontend: ${MAGENTO_BASE_URL}"
