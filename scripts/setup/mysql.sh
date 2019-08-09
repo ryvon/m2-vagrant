@@ -3,7 +3,7 @@ set -e
 
 [[ -z ${SETUP_LOG} ]] && exit 1
 
-echo "Installing mysql"
+echo "Installing mysql-server"
 {
   apt-get -y install mysql-server
 
