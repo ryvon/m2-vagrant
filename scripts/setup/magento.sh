@@ -37,6 +37,7 @@ echo "Installing Magento"
     exit 1
   fi
 
+  echo " - Copying sample data to ${APACHE_ROOT}" >&2
   su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${APACHE_ROOT}'"
   su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
   su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/dev/' '${APACHE_ROOT}'"
