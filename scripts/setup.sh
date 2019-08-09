@@ -18,6 +18,9 @@ fi
 # shellcheck source=./setup/update.sh
 . "${VAGRANT_ROOT}/scripts/setup/update.sh"
 
+# shellcheck source=./setup/swap.sh
+. "${VAGRANT_ROOT}/scripts/setup/swap.sh"
+
 # shellcheck source=./setup/system-tools.sh
 . "${VAGRANT_ROOT}/scripts/setup/system-tools.sh"
 
