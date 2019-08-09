@@ -19,6 +19,6 @@ if [[ -f ${COMPOSER_AUTH_JSON} ]] && [[ ! -f ${COMPOSER_AUTH_HOME} ]]; then
 
   if [[ "${COMPOSER_CHOWN}" != "" ]]; then
     chown "${COMPOSER_CHOWN}":"${COMPOSER_CHOWN}" "${COMPOSER_AUTH_ROOT}"
-    chown "${COMPOSER_CHOWN}":"${COMPOSER_CHOWN}" "${COMPOSER_AUTH_ROOT}/*"
+    chown "${COMPOSER_CHOWN}":"${COMPOSER_CHOWN}" "${COMPOSER_AUTH_ROOT}/"*
   fi
 fi
