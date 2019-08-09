@@ -6,7 +6,7 @@ set -e
 echo "Installing system tools"
 {
   apt-get -y install apt-transport-https bash-completion ca-certificates curl \
-    git lsb-release unzip zip
+    git lsb-release unzip zip mutt ncdu
 
   echo " - Installing nodejs" >&2
   curl -sL https://deb.nodesource.com/setup_8.x | bash -
