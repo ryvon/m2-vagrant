@@ -2,11 +2,11 @@
 # vi: set ft=ruby :
 
 def loadToEnv(file)
-    # https://stackoverflow.com/a/22049005
-    # Find variables in the general form of "export x=y"
-    env_vars = File.read(file).scan /export\s+(\S+)=(\S+)/
-    # Parse each variable into the Ruby ENV key/value pair, removing outer quotes on the value if present.
-    env_vars.each { |v| ENV[v.first] = v.last.gsub /\A['"]|["']\Z/, '' }
+  # https://stackoverflow.com/a/22049005
+  # Find variables in the general form of "export x=y"
+  env_vars = File.read(file).scan /export\s+(\S+)=(\S+)/
+  # Parse each variable into the Ruby ENV key/value pair, removing outer quotes on the value if present.
+  env_vars.each { |v| ENV[v.first] = v.last.gsub /\A['"]|["']\Z/, '' }
 end
 
 loadToEnv('./etc/env')
