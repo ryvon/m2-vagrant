@@ -9,6 +9,10 @@ echo "Installing Magento"
   CURRENT_SAMPLE_DATA_ARCHIVE="sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
   SAMPLE_DATA_ROOT="/home/vagrant/sample-data"
 
+  echo " - Clearing crontab" >&2
+  [[ -z $(crontab -u vagrant -l 2>/dev/null) ]] || crontab -u vagrant -r
+
+  echo " - Removing current Apache root" >&2
   rm -rf "${APACHE_ROOT}"
   mkdir "${APACHE_ROOT}"
   chown vagrant:vagrant "${APACHE_ROOT}"
@@ -81,6 +85,9 @@ EOSQL
 
   echo " - Enabling developer mode" >&2
   su vagrant -c "bin/magento deploy:mode:set developer"
+
+  echo " - Installing Magento cron" >&2
+  su vagrant -c "bin/magento cron:install"
 
   popd >/dev/null || {
     echo " - Failed to change directory" >&2
