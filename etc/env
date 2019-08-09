@@ -21,6 +21,8 @@ export MAGENTO_SAMPLE_DATA_VERSION="2.2"
 
 export MAGENTO_BASE_URL="https://${VAGRANT_HOST}/"
 export MAGENTO_ADMIN_URI="admin"
+export MAGENTO_ADMIN_URL="https://${VAGRANT_HOST}/${MAGENTO_ADMIN_URI}/"
+export MAGENTO_SEARCH_PATTERN="All rights reserved."
 
 export MAGENTO_ADMIN_EMAIL="admin@example.com"
 export MAGENTO_ADMIN_USER="admin"

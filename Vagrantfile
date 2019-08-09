@@ -34,5 +34,6 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.provision 'provision-setup',  type: 'shell', path: 'scripts/setup.sh', keep_color: true
+  config.vm.provision 'provision-setup', type: 'shell', path: 'scripts/setup.sh', keep_color: true
+  config.vm.provision 'provision-test',  type: 'shell', path: 'scripts/test.sh', run: 'always', keep_color: true
 end
