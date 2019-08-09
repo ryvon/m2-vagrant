@@ -13,3 +13,8 @@ export MYSQL_PASSWORD="magentoMysqlPassword"
 
 export COMPOSER_HOME="/home/vagrant/.composer"
 export COMPOSER_BIN="/usr/local/bin/composer"
+
+export MAGENTO_REPO_NAME="magento/project-community-edition"
+export MAGENTO_REPO_URL="https://repo.magento.com/"
+export MAGENTO_REPO_VERSION="2.2.9"
+export MAGENTO_SAMPLE_DATA_VERSION="2.2"
