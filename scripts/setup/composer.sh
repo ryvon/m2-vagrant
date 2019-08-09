@@ -31,17 +31,9 @@ echo "Installing composer"
     chmod +x "${COMPOSER_BIN}"
   fi
 
-  COMPOSER_AUTH_JSON="${VAGRANT_ROOT}/etc/composer/auth.json"
-  COMPOSER_AUTH_HOME="${COMPOSER_HOME}/auth.json"
+  export COMPOSER_AUTH_JSON="${VAGRANT_ROOT}/etc/composer/auth.json"
+  export COMPOSER_AUTH_HOME="${COMPOSER_HOME}/auth.json"
 
-  if [[ -f ${COMPOSER_AUTH_JSON} ]] && [[ ! -f ${COMPOSER_AUTH_HOME} ]]; then
-    echo " - Installing composer auth config to ${COMPOSER_AUTH_HOME}" >&2
-
-    if [[ ! -d ${COMPOSER_HOME} ]]; then
-      mkdir "${COMPOSER_HOME}"
-      chown vagrant:vagrant "${COMPOSER_HOME}"
-    fi
-    cp "${COMPOSER_AUTH_JSON}" "${COMPOSER_AUTH_HOME}"
-    chown vagrant:vagrant "${COMPOSER_HOME}/auth.json"
-  fi
+  # shellcheck source=./composer-auth.sh
+  . "${VAGRANT_ROOT}/scripts/setup/composer-auth.sh"
 } >>"${SETUP_LOG}"
