@@ -11,7 +11,7 @@ end
 
 loadToEnv('./etc/env')
 
-$archive = "./archive/magento-#{ENV['MAGENTO_REPO_VERSION']}.tar"
+$archive = "./source/magento-#{ENV['MAGENTO_REPO_VERSION']}.tar"
 if (!File.exists?($archive))
   raise "Magento archive not found at '#{$archive}', run download-magento.sh"
 end

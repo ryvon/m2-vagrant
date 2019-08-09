@@ -6,8 +6,8 @@ set -e
 echo "Installing Magento"
 {
   CURRENT_MAGENTO_ARCHIVE="magento-${MAGENTO_REPO_VERSION}.tar"
-  CURRENT_SAMPLE_DATA_ARCHIVE="sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
-  SAMPLE_DATA_ROOT="/home/vagrant/sample-data"
+  CURRENT_SAMPLE_DATA_ARCHIVE="magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
+  SAMPLE_DATA_ROOT="/home/vagrant/magento-sample-data"
 
   echo " - Clearing crontab" >&2
   [[ -z $(crontab -u vagrant -l 2>/dev/null) ]] || crontab -u vagrant -r
@@ -20,7 +20,7 @@ echo "Installing Magento"
   service apache2 restart
 
   echo " - Extracting Magneto to ${APACHE_ROOT}" >&2
-  tar xf "${VAGRANT_ROOT}/archive/${CURRENT_MAGENTO_ARCHIVE}" --directory "${APACHE_ROOT}"
+  tar xf "${VAGRANT_ROOT}/source/${CURRENT_MAGENTO_ARCHIVE}" --directory "${APACHE_ROOT}"
   if [[ $? -ne 0 ]]; then
     echo " - Failed to extract Magento" >&2
     exit 1
@@ -31,7 +31,7 @@ echo "Installing Magento"
   chown vagrant:vagrant "${SAMPLE_DATA_ROOT}"
 
   echo " - Extracting sample data to ${SAMPLE_DATA_ROOT}" >&2
-  tar xf "${VAGRANT_ROOT}/archive/${CURRENT_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
+  tar xf "${VAGRANT_ROOT}/source/${CURRENT_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
   if [[ $? -ne 0 ]]; then
     echo " - Failed to extract sample data" >&2
     exit 1
