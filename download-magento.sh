@@ -39,10 +39,16 @@ if [[ ! -f "${VAGRANT_ROOT}/archive/${CURRENT_MAGENTO_ARCHIVE}" ]]; then
 
   echo "Archiving Magento from '${MAGENTO_ROOT}' to '${VAGRANT_ROOT}/archive/${CURRENT_MAGENTO_ARCHIVE}'"
 
-  pushd "${MAGENTO_ROOT}" >/dev/null
+  pushd "${MAGENTO_ROOT}" >/dev/null || {
+    echo "Failed to change directory"
+    exit 1
+  }
   tar cf "../archive/${CURRENT_MAGENTO_ARCHIVE}" .
   RESULT=$?
-  popd >/dev/null
+  popd >/dev/null || {
+    echo "Failed to change directory"
+    exit 1
+  }
 
   if [[ ${RESULT} -ne 0 ]]; then
     echo "Failed to create Magento archive"
@@ -72,10 +78,16 @@ export CURRENT_SAMPLE_DATA_ARCHIVE="sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.t
 if [[ ! -f "${VAGRANT_ROOT}/archive/${CURRENT_SAMPLE_DATA_ARCHIVE}" ]]; then
   echo "Archiving sample data from '${SAMPLE_DATA_ROOT}' to '${VAGRANT_ROOT}/archive/${CURRENT_SAMPLE_DATA_ARCHIVE}'"
 
-  pushd "${SAMPLE_DATA_ROOT}" >/dev/null
+  pushd "${SAMPLE_DATA_ROOT}" >/dev/null || {
+    echo "Failed to change directory"
+    exit 1
+  }
   tar cf "../archive/${CURRENT_SAMPLE_DATA_ARCHIVE}" .
   RESULT=$?
-  popd >/dev/null
+  popd >/dev/null || {
+    echo "Failed to change directory"
+    exit 1
+  }
 
   if [[ ${RESULT} -ne 0 ]]; then
     echo "Failed to create sample data archive"
