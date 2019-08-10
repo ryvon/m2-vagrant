@@ -8,6 +8,11 @@ echo "Installing Magento"
   echo " - Clearing crontab" >&2
   [[ -z $(crontab -u vagrant -l 2>/dev/null) ]] || crontab -u vagrant -r
 
+  pushd /home/vagrant >/dev/null || {
+    echo " - Failed to change directory" >&2
+    exit 1
+  }
+
   echo " - Removing current Apache root" >&2
   rm -rf "${APACHE_ROOT}"
   mkdir "${APACHE_ROOT}"
@@ -88,6 +93,11 @@ EOSQL
 
   echo " - Installing Magento cron" >&2
   su vagrant -c "bin/magento cron:install"
+
+  popd >/dev/null || {
+    echo " - Failed to change directory" >&2
+    exit 1
+  }
 
   popd >/dev/null || {
     echo " - Failed to change directory" >&2
