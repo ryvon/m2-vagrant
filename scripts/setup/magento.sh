@@ -47,9 +47,7 @@ echo "Installing Magento"
     fi
 
     echo " - Copying sample data to ${APACHE_ROOT}" >&2
-    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${APACHE_ROOT}'"
-    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
-    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/dev/' '${APACHE_ROOT}'"
+    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${SAMPLE_DATA_ROOT}/dev/' '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
   fi
 
   echo " - Clearing database" >&2
