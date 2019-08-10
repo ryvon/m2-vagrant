@@ -35,7 +35,7 @@ echo "Installing Magento"
 
   echo " - Extracting Magneto to ${APACHE_ROOT}" >&2
   tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"
-  if [[ $? -ne 0 ]]; then
+  if ! tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"; then
     echo " - Failed to extract Magento" >&2
     exit 1
   fi
@@ -50,7 +50,7 @@ echo "Installing Magento"
     chown vagrant:vagrant "${SAMPLE_DATA_ROOT}"
 
     tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
-    if [[ $? -ne 0 ]]; then
+    if ! tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"; then
       echo " - Failed to extract sample data" >&2
       exit 1
     fi
@@ -74,7 +74,8 @@ EOSQL
 
   echo " - Running setup:install" >&2
   chmod u+x bin/magento
-  su vagrant -c "bin/magento setup:install \
+
+  if ! su vagrant -c "bin/magento setup:install \
     --base-url=${MAGENTO_BASE_URL} \
     --db-host=localhost \
     --db-name=${MYSQL_DATABASE} \
@@ -89,8 +90,7 @@ EOSQL
     --admin-lastname=Account \
     --language=en_US \
     --currency=USD \
-    --use-rewrites=1"
-  if [[ $? -ne 0 ]]; then
+    --use-rewrites=1"; then
     echo " - Failed to setup Magento" >&2
     exit 1
   fi
