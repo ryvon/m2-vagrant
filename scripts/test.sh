@@ -18,7 +18,12 @@ if [[ -z "${MAGENTO_ARCHIVE}" ]]; then
   exit 0
 fi
 
+echo " - Frontend: ${MAGENTO_BASE_URL}"
+echo " - Admin:    ${MAGENTO_ADMIN_URL}"
+echo " - MailHog:  ${MAGENTO_BASE_URL}mailhog/"
+
 echo "Checking site status"
+
 # If running through bash in Windows we don't use the same hosts file that gets updated by hostmanager.  We use the IP
 # specifying the Host header to get around that.
 CHECK_HOST="${VAGRANT_HOST}"
@@ -31,7 +36,3 @@ if [[ ${HOME_PAGE_CONTENT} =~ ${MAGENTO_SEARCH_PATTERN} ]]; then
 else
   echo " - Failed to load site"
 fi
-
-echo " - Frontend: ${MAGENTO_BASE_URL}"
-echo " - Admin:    ${MAGENTO_ADMIN_URL}"
-echo " - MailHog:  ${MAGENTO_BASE_URL}mailhog/"
