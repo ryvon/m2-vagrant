@@ -13,7 +13,6 @@ if [[ ! -d "${VAGRANT_ROOT}/source" ]]; then
   mkdir "${VAGRANT_ROOT}/source"
 fi
 
-MAGENTO_ARCHIVE="magento-${MAGENTO_REPO_VERSION}.tar"
 if [[ ! -f "${VAGRANT_ROOT}/source/${MAGENTO_ARCHIVE}" ]]; then
   MAGENTO_SOURCE="${VAGRANT_ROOT}/source/magento-${MAGENTO_REPO_VERSION}"
   if [[ ! -f "${MAGENTO_SOURCE}/composer.json" ]]; then
@@ -57,8 +56,7 @@ else
   echo "Magento archive already created"
 fi
 
-SAMPLE_DATA_ARCHIVE="magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
-if [[ ! -f "${VAGRANT_ROOT}/source/${SAMPLE_DATA_ARCHIVE}" ]]; then
+if [[ ! -f "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
   SAMPLE_DATA_SOURCE="${VAGRANT_ROOT}/source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}"
   if [[ ! -d "${SAMPLE_DATA_SOURCE}" ]]; then
     echo "Downloading sample data from https://github.com/magento/magento2-sample-data.git"
@@ -75,13 +73,13 @@ if [[ ! -f "${VAGRANT_ROOT}/source/${SAMPLE_DATA_ARCHIVE}" ]]; then
     fi
   fi
 
-  echo "Archiving sample data from '${SAMPLE_DATA_SOURCE}' to '${VAGRANT_ROOT}/source/${SAMPLE_DATA_ARCHIVE}'"
+  echo "Archiving sample data from '${SAMPLE_DATA_SOURCE}' to '${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}'"
 
   pushd "${SAMPLE_DATA_SOURCE}" >/dev/null || {
     echo " - Failed to change directory"
     exit 1
   }
-  tar cf "../${SAMPLE_DATA_ARCHIVE}" .
+  tar cf "../${MAGENTO_SAMPLE_DATA_ARCHIVE}" .
   RESULT=$?
   popd >/dev/null || {
     echo " - Failed to change directory"
