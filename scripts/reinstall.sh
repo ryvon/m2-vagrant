@@ -21,3 +21,6 @@ fi
 
 # shellcheck source=./setup/magento.sh
 . "${VAGRANT_ROOT}/scripts/setup/magento.sh"
+
+# shellcheck source=./test.sh
+. "${VAGRANT_ROOT}/scripts/test.sh"
