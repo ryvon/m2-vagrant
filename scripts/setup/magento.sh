@@ -27,24 +27,26 @@ echo "Installing Magento"
     exit 1
   fi
 
-  SAMPLE_DATA_ROOT="/home/vagrant/magento-sample-data"
-  echo " - Extracting sample data to ${SAMPLE_DATA_ROOT}" >&2
-  if [[ -d "${SAMPLE_DATA_ROOT}" ]]; then
-    rm -rf "${SAMPLE_DATA_ROOT}"
-  fi
-  mkdir "${SAMPLE_DATA_ROOT}"
-  chown vagrant:vagrant "${SAMPLE_DATA_ROOT}"
+  if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]] && [[ -f "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
+    SAMPLE_DATA_ROOT="/home/vagrant/magento-sample-data"
+    echo " - Extracting sample data to ${SAMPLE_DATA_ROOT}" >&2
+    if [[ -d "${SAMPLE_DATA_ROOT}" ]]; then
+      rm -rf "${SAMPLE_DATA_ROOT}"
+    fi
+    mkdir "${SAMPLE_DATA_ROOT}"
+    chown vagrant:vagrant "${SAMPLE_DATA_ROOT}"
 
-  tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
-  if [[ $? -ne 0 ]]; then
-    echo " - Failed to extract sample data" >&2
-    exit 1
-  fi
+    tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
+    if [[ $? -ne 0 ]]; then
+      echo " - Failed to extract sample data" >&2
+      exit 1
+    fi
 
-  echo " - Copying sample data to ${APACHE_ROOT}" >&2
-  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${APACHE_ROOT}'"
-  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
-  su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/dev/' '${APACHE_ROOT}'"
+    echo " - Copying sample data to ${APACHE_ROOT}" >&2
+    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/app/' '${APACHE_ROOT}'"
+    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/pub/' '${APACHE_ROOT}'"
+    su vagrant -c "cp -R '${SAMPLE_DATA_ROOT}/dev/' '${APACHE_ROOT}'"
+  fi
 
   echo " - Clearing database" >&2
   mysql -u root <<EOSQL
