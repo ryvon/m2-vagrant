@@ -13,7 +13,6 @@ fi
 SETUP_LOG="${VAGRANT_ROOT}/log/setup.log"
 
 export SETUP_LOG
-export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
 export COMPOSER_CHOWN=vagrant
 
 if [[ -f ${SETUP_LOG} ]]; then
