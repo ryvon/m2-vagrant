@@ -19,8 +19,8 @@ export MAGENTO_REPO_URL="https://repo.magento.com/"
 export MAGENTO_REPO_VERSION="2.2.9"
 export MAGENTO_SAMPLE_DATA_VERSION="2.2"
 
+# Comment out to disable Magento or sample data installation
 export MAGENTO_ARCHIVE="magento-${MAGENTO_REPO_VERSION}.tar"
-# Comment out to disable sample data installation
 export MAGENTO_SAMPLE_DATA_ARCHIVE="magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
 
 export MAGENTO_BASE_URL="https://${VAGRANT_HOST}/"

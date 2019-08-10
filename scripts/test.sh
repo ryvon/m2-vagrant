@@ -14,6 +14,10 @@ service mailhog restart
 service mysql restart
 service apache2 restart
 
+if [[ -z "${MAGENTO_ARCHIVE}" ]]; then
+  exit 0
+fi
+
 echo "Checking site status"
 # If running through bash in Windows we don't use the same hosts file that gets updated by hostmanager.  We use the IP
 # specifying the Host header to get around that.

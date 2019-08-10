@@ -3,6 +3,10 @@ set -e
 
 [[ -z ${SETUP_LOG} ]] && exit 1
 
+if [[ -z "${MAGENTO_ARCHIVE}" ]]; then
+  exit 0
+fi
+
 echo "Installing Magento"
 {
   echo " - Clearing crontab" >&2
