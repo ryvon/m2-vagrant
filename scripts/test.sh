@@ -21,7 +21,11 @@ fi
 echo "Checking site status"
 # If running through bash in Windows we don't use the same hosts file that gets updated by hostmanager.  We use the IP
 # specifying the Host header to get around that.
-HOME_PAGE_CONTENT="$(curl --silent --show-error --location --max-time 20 --connect-timeout 20 --header "Host: ${VAGRANT_HOST}" --insecure "https://${VAGRANT_IP}/")"
+CHECK_HOST="${VAGRANT_HOST}"
+if [[ -n "${VAGRANT_IP}" ]]; then
+  CHECK_HOST="${VAGRANT_IP}"
+fi
+HOME_PAGE_CONTENT="$(curl --silent --show-error --location --max-time 20 --connect-timeout 20 --header "Host: ${VAGRANT_HOST}" --insecure "https://${CHECK_HOST}/")"
 if [[ ${HOME_PAGE_CONTENT} =~ ${MAGENTO_SEARCH_PATTERN} ]]; then
   echo " - Magento found"
 else

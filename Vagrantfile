@@ -4,7 +4,7 @@
 def loadToEnv(file)
   # https://stackoverflow.com/a/22049005
   # Find variables in the general form of "export x=y"
-  env_vars = File.read(file).scan /export\s+(\S+)=(\S+)/
+  env_vars = File.read(file).scan /^export\s+(\S+)=(\S+)/
   # Parse each variable into the Ruby ENV key/value pair, removing outer quotes on the value if present.
   env_vars.each { |v| ENV[v.first] = v.last.gsub /\A['"]|["']\Z/, '' }
 end
@@ -14,13 +14,23 @@ loadToEnv('./etc/env')
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/contrib-stretch64"
 
-  config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
+  config.hostmanager.enabled = ENV['VAGRANT_HOSTMANAGER_ENABLED'] == 'true'
+  config.hostmanager.manage_host = ENV['VAGRANT_HOSTMANAGER_ENABLED'] == 'true'
 
   config.vm.define 'm2-vagrant' do |node|
     node.vm.post_up_message = false
     node.vm.hostname = ENV['VAGRANT_HOST']
-    node.vm.network :private_network, ip: ENV['VAGRANT_IP']
+
+    if ENV.has_key?('VAGRANT_PUBLIC') and ENV['VAGRANT_PUBLIC'] == 'true'
+      node.vm.network 'public_network', ip: ENV['VAGRANT_IP']
+    else
+      node.vm.network 'private_network', ip: ENV['VAGRANT_IP']
+    end
+
+    if ENV.has_key?('VAGRANT_FORWARD_PORTS') and ENV['VAGRANT_FORWARD_PORTS'] == 'true'
+      node.vm.network 'forwarded_port', guest: 80, host: 18080
+      node.vm.network 'forwarded_port', guest: 443, host: 18043
+    end
 
     node.vm.synced_folder '.', '/vagrant', type: 'virtualbox'
 

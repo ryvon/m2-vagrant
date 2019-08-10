@@ -1,5 +1,10 @@
+# Uncomment to expose on public networks https://www.vagrantup.com/docs/networking/public_network.html
+# It is safer to use VAGRANT_FORWARD_PORTS and forward 18080 and 18043 to the host machine.
+#export VAGRANT_PUBLIC=true
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_HOST="magento2.vagrant"
+export VAGRANT_FORWARD_PORTS=false
+export VAGRANT_HOSTMANAGER_ENABLED=true
 
 export VAGRANT_ROOT="/vagrant"
 export VAGRANT_MEMORY=2048
