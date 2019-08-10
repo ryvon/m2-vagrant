@@ -11,6 +11,7 @@ export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
 
 export APACHE_ROOT="/var/www/html"
+export APACHE_USE_LETSENCRYPT=false # To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and VAGRANT_HOST must point to the guest
 
 export MYSQL_DATABASE="magento"
 export MYSQL_USER="magento"

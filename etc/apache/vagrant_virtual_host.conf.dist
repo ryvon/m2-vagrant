@@ -14,7 +14,6 @@
 
 <Macro VHostCommon>
     DocumentRoot "[APACHE_ROOT]"
-    ServerName [VAGRANT_HOST]
     <Directory "[APACHE_ROOT]">
         Options Indexes FollowSymLinks
         AllowOverride All
@@ -25,12 +24,14 @@
 </Macro>
 
 <VirtualHost *:80>
+    ServerName [VAGRANT_HOST]
     Use VHostProxyMailhog
     Use VHostCommon
 </VirtualHost>
 
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
+        ServerName [VAGRANT_HOST]
         Use VHostProxyMailhog
         Use VHostCommon
 

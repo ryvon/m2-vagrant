@@ -41,3 +41,6 @@ fi
 
 # shellcheck source=./setup/magento.sh
 . "${VAGRANT_ROOT}/scripts/setup/magento.sh"
+
+# shellcheck source=./setup/letsencrypt.sh
+. "${VAGRANT_ROOT}/scripts/setup/letsencrypt.sh"
