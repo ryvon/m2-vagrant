@@ -11,11 +11,6 @@ end
 
 loadToEnv('./etc/env')
 
-$archive = "./source/magento-#{ENV['MAGENTO_REPO_VERSION']}.tar"
-if (!File.exists?($archive))
-  raise "Magento archive not found at '#{$archive}', run download-magento.sh"
-end
-
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/contrib-stretch64"
 

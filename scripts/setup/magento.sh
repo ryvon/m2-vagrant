@@ -7,6 +7,15 @@ if [[ -z "${MAGENTO_ARCHIVE}" ]]; then
   exit 0
 fi
 
+MAGENTO_ARCHIVE_PATH="${VAGRANT_ROOT}/source/${MAGENTO_ARCHIVE}"
+
+if [[ ! -f "${MAGENTO_ARCHIVE_PATH}" ]]; then
+  printf "\e[91mMagento archive not found at 'source/%s'.\e[39m \n\
+Run download-magento.sh on the host or create the archive manually, then either \n\
+run 'sudo /vagrant/scripts/reinstall.sh' or re-create the vagrant instance.\n" "${MAGENTO_ARCHIVE}"
+  exit 0
+fi
+
 echo "Installing Magento"
 {
   echo " - Clearing crontab" >&2
@@ -25,7 +34,7 @@ echo "Installing Magento"
   service apache2 restart
 
   echo " - Extracting Magneto to ${APACHE_ROOT}" >&2
-  tar xf "${VAGRANT_ROOT}/source/${MAGENTO_ARCHIVE}" --directory "${APACHE_ROOT}"
+  tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"
   if [[ $? -ne 0 ]]; then
     echo " - Failed to extract Magento" >&2
     exit 1
