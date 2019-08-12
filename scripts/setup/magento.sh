@@ -104,6 +104,9 @@ EOSQL
   echo " - Enabling developer mode" >&2
   su vagrant -c "bin/magento deploy:mode:set developer"
 
+  echo " - Enabling cache" >&2
+  su vagrant -c "bin/magento cache:enable"
+
   echo " - Installing Magento cron" >&2
   su vagrant -c "bin/magento cron:install"
 
