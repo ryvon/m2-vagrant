@@ -18,6 +18,9 @@ fi
 
 echo "Installing Magento"
 {
+  echo " - Stopping apache2" >&2
+  service apache2 stop
+
   echo " - Clearing crontab" >&2
   [[ -z $(crontab -u vagrant -l 2>/dev/null) ]] || crontab -u vagrant -r
 
@@ -30,8 +33,6 @@ echo "Installing Magento"
   rm -rf "${APACHE_ROOT}"
   mkdir "${APACHE_ROOT}"
   chown vagrant:vagrant "${APACHE_ROOT}"
-
-  service apache2 restart
 
   echo " - Extracting Magneto to ${APACHE_ROOT}" >&2
   tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"
@@ -109,6 +110,9 @@ EOSQL
 
   echo " - Installing Magento cron" >&2
   su vagrant -c "bin/magento cron:install"
+
+  echo " - Starting apache2" >&2
+  service apache2 start
 
   popd >/dev/null || {
     echo " - Failed to change directory" >&2
