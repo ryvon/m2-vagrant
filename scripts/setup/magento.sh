@@ -35,7 +35,6 @@ echo "Installing Magento"
   chown vagrant:vagrant "${APACHE_ROOT}"
 
   echo " - Extracting Magneto to ${APACHE_ROOT}" >&2
-  tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"
   if ! tar xf "${MAGENTO_ARCHIVE_PATH}" --directory "${APACHE_ROOT}"; then
     echo " - Failed to extract Magento" >&2
     exit 1
@@ -50,7 +49,6 @@ echo "Installing Magento"
     mkdir "${SAMPLE_DATA_ROOT}"
     chown vagrant:vagrant "${SAMPLE_DATA_ROOT}"
 
-    tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"
     if ! tar xf "${VAGRANT_ROOT}/source/${MAGENTO_SAMPLE_DATA_ARCHIVE}" --directory "${SAMPLE_DATA_ROOT}"; then
       echo " - Failed to extract sample data" >&2
       exit 1
