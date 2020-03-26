@@ -14,8 +14,10 @@ loadToEnv('./etc/env')
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/contrib-stretch64"
 
-  config.hostmanager.enabled = ENV['VAGRANT_HOSTMANAGER_ENABLED'] == 'true'
-  config.hostmanager.manage_host = ENV['VAGRANT_HOSTMANAGER_ENABLED'] == 'true'
+  if ENV.has_key?('VAGRANT_HOSTMANAGER_ENABLED') and ENV['VAGRANT_HOSTMANAGER_ENABLED'] == 'true'
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+  end
 
   config.vm.define 'm2-vagrant' do |node|
     node.vm.post_up_message = false

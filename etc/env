@@ -4,7 +4,7 @@
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_HOST="magento2.vagrant"
 export VAGRANT_FORWARD_PORTS=false
-export VAGRANT_HOSTMANAGER_ENABLED=true
+export VAGRANT_HOSTMANAGER_ENABLED=false
 
 export VAGRANT_ROOT="/vagrant"
 export VAGRANT_MEMORY=2048
