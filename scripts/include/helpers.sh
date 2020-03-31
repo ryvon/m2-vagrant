@@ -172,6 +172,7 @@ testUrl() {
   fi
 
   logError "${label} $(printf '%-35s' "https://${pretend_host}/${check_uri}") Expected content not found"
+  logDebug "https://${pretend_host}/${check_uri} content: ${curl_response}"
   return 1
 }
 
