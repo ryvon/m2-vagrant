@@ -174,3 +174,43 @@ testUrl() {
   logError "${label} $(printf '%-35s' "https://${pretend_host}/${check_uri}") Expected content not found"
   return 1
 }
+
+createArchive() {
+  local archive_file=$1
+  local path_to_compress=$2
+
+  local tar_switch
+  if [[ "${archive_file}" == *.tar.gz ]]; then
+    tar_switch="-czf"
+  elif [[ "${archive_file}" == *.tar.bz2 ]]; then
+    tar_switch="-cjf"
+  elif [[ "${archive_file}" == *.tar ]]; then
+    tar_switch="-cf"
+  else
+    logError "Unknown archive type"
+    return 1
+  fi
+
+  pushd "${path_to_compress}" >/dev/null || return 1
+  runCommand tar "${tar_switch}" "${archive_file}" . || return 1
+  popd >/dev/null || return 1
+}
+
+extractArchive() {
+  local archive_file=$1
+  local path_to_extract=$2
+
+  local tar_switch
+  if [[ "${archive_file}" == *".tar.gz" ]]; then
+    tar_switch="-xzf"
+  elif [[ "${archive_file}" == *".tar.bz2" ]]; then
+    tar_switch="-xjf"
+  elif [[ "${archive_file}" == *".tar" ]]; then
+    tar_switch="-xf"
+  else
+    logError "Unknown archive type"
+    return 1
+  fi
+
+  runCommand tar "${tar_switch}" "${archive_file}" --directory "${path_to_extract}" || return 1
+}

@@ -136,7 +136,7 @@ installMagentoFiles() {
   runCommand chown vagrant:vagrant "${magento_install_path}" || return 1
 
   logInfo "Extracting Magento archive"
-  runCommand tar xf "${magento_install_archive}" --directory "${magento_install_path}" || return 1
+  extractArchive "${magento_install_archive}" "${magento_install_path}" || return 1
 
   local magento_bin="${magento_install_path}/bin/magento"
   runCommand chmod u+x "${magento_bin}" || return 1
@@ -164,7 +164,7 @@ installMagentoSampleData() {
   runCommand chown vagrant:vagrant "${sample_data_temp}" || return 1
 
   logInfo "Extracting sample data temporary location"
-  runCommand tar xf "${sample_data_archive}" --directory "${sample_data_temp}" || return 1
+  extractArchive "${sample_data_archive}" "${sample_data_temp}" || return 1
 
   logInfo "Copying sample data to \"${magento_install_path}\""
   runCommand su vagrant -c "cp -R '${sample_data_temp}/app/' '${sample_data_temp}/dev/' '${sample_data_temp}/pub/' '${magento_install_path}'" || return 1
