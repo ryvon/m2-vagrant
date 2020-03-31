@@ -153,18 +153,12 @@ installMagentoSampleData() {
     return 1
   fi
 
-  local sample_data_temp="/home/vagrant/magento-sample-data"
-
-  if [[ -d "${sample_data_temp}" ]]; then
-    logInfo "Cleaning up old sample data directory"
-    runCommand rm -rf "${sample_data_temp}" || return 1
-  fi
-
-  runCommand mkdir "${sample_data_temp}" || return 1
-  runCommand chown vagrant:vagrant "${sample_data_temp}" || return 1
+  local sample_data_temp
+  sample_data_temp=$(mktemp -d)
 
   logInfo "Extracting sample data temporary location"
   extractArchive "${sample_data_archive}" "${sample_data_temp}" || return 1
+  runCommand chown -R vagrant:vagrant "${sample_data_temp}" || return 1
 
   logInfo "Copying sample data to \"${magento_install_path}\""
   runCommand su vagrant -c "cp -R '${sample_data_temp}/app/' '${sample_data_temp}/dev/' '${sample_data_temp}/pub/' '${magento_install_path}'" || return 1
