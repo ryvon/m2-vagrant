@@ -60,10 +60,6 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
 
   configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" || exit 1
 
-  if [[ -f "${composer_auth_file}" ]]; then
-    installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || exit 1
-  fi
-
   finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
 fi
 
