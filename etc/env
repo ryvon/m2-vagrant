@@ -26,7 +26,7 @@ export MAGENTO_ADMIN_URI="dev_admin"
 
 export MAGENTO_ADMIN_EMAIL="admin@example.com"
 export MAGENTO_ADMIN_USER="admin"
-export MAGENTO_ADMIN_PASSWORD="admin123"
+export MAGENTO_ADMIN_PASSWORD="adminPassword123"
 export MAGENTO_TIMEZONE="America/New_York"
 
 export MAGENTO_REPO_NAME="magento/project-community-edition"
