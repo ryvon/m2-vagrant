@@ -94,25 +94,8 @@ configureApacheForMagento() {
   runCommand service apache2 start || return 1
 }
 
-installMagentoFiles() {
-  local magento_install_archive=$1
-  local magento_install_path=$2
-  local magento_base_url=$3
-  local magento_admin_uri=$4
-  local magento_admin_email=$5
-  local magento_admin_user=$6
-  local magento_admin_password=$7
-  local magento_timezone=$8
-  local mysql_database=$9
-  local mysql_user=${10}
-  local mysql_password=${11}
-
-  logGroup "Installing Magento from \"${magento_install_archive}\" to \"${magento_install_path}\""
-
-  if [[ ! -f "${magento_install_archive}" ]]; then
-    logError "Magento archive not found"
-    return 1
-  fi
+prepareForMagentoInstall() {
+  logGroup "Preparing for Magento install"
 
   logInfo "Stopping apache2"
   runCommand service apache2 stop || return 1
@@ -120,6 +103,31 @@ installMagentoFiles() {
   if [[ -n "$(crontab -u vagrant -l 2>/dev/null)" ]]; then
     logInfo "Clearing crontab"
     runCommand crontab -u vagrant -r || return 1
+  fi
+}
+
+finishMagentoInstall() {
+  local magento_install_path=$1
+
+  logGroup "Finalizing Magento install"
+
+  logInfo "Starting apache2"
+  runCommand service apache2 start || return 1
+
+  logInfo "Installing cron"
+  local magento_bin="${magento_install_path}/bin/magento"
+  runCommand su vagrant -c "${magento_bin} cron:install" || return 1
+}
+
+installMagentoFiles() {
+  local magento_install_archive=$1
+  local magento_install_path=$2
+
+  logGroup "Installing Magento files from \"${magento_install_archive}\" to \"${magento_install_path}\""
+
+  if [[ ! -f "${magento_install_archive}" ]]; then
+    logError "Magento archive not found"
+    return 1
   fi
 
   logInfo "Clearing installation path"
@@ -130,18 +138,33 @@ installMagentoFiles() {
   logInfo "Extracting Magento archive"
   runCommand tar xf "${magento_install_archive}" --directory "${magento_install_path}" || return 1
 
-  logInfo "Recreating Magento database"
+  local magento_bin="${magento_install_path}/bin/magento"
+  runCommand chmod u+x "${magento_bin}" || return 1
+}
+
+setupMagentoDatabaseDefault() {
+  local magento_install_path=$1
+  local magento_base_url=$2
+  local magento_admin_uri=$3
+  local magento_admin_email=$4
+  local magento_admin_user=$5
+  local magento_admin_password=$6
+  local magento_timezone=$7
+  local mysql_database=$8
+  local mysql_user=$9
+  local mysql_password=${10}
+
+  logGroup "Creating Magento database"
+
+  logInfo "Emptying current database"
   runCommand mysql -u root -e "DROP DATABASE ${mysql_database};" || return 1
   runCommand mysql -u root -e "CREATE DATABASE ${mysql_database};" || return 1
   runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'localhost';" || return 1
   runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'%';" || return 1
   runCommand mysql -u root -e "FLUSH PRIVILEGES;" || return 1
 
-  local magento_bin="${magento_install_path}/bin/magento"
-
-  runCommand chmod u+x "${magento_bin}" || return 1
-
   logInfo "Running setup:install"
+  local magento_bin="${magento_install_path}/bin/magento"
   runCommand su vagrant -c "${magento_bin} setup:install \
       --base-url=${magento_base_url} \
       --db-host=localhost \
@@ -158,17 +181,27 @@ installMagentoFiles() {
       --language=en_US \
       --currency=USD \
       --use-rewrites=1" || return 1
+}
+
+configureMagento() {
+  local magento_install_path=$1
+  local magento_base_url=$2
+
+  local magento_bin="${magento_install_path}/bin/magento"
+
+  logGroup "Configuring Magento"
 
   logInfo "Setting developer mode"
   runCommand su vagrant -c "${magento_bin} deploy:mode:set developer" || return 1
 
+  logInfo "Setting base URLs"
+  runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_url '${magento_base_url}'" || return 1
+  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_url '${magento_base_url}'" || return 1
+
+  logInfo "Disabling Recaptcha"
+  runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
+
   logInfo "Enabling cache"
   runCommand su vagrant -c "${magento_bin} cache:enable" || return 1
   runCommand su vagrant -c "${magento_bin} cache:flush" || return 1
-
-  logInfo "Installing cron"
-  runCommand su vagrant -c "${magento_bin} cron:install" || return 1
-
-  logInfo "Starting apache2"
-  runCommand service apache2 start || return 1
 }

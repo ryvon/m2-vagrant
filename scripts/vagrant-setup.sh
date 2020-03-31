@@ -41,13 +41,19 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   # Mailhog needs to reconfigure after configureApacheForMagento creates a new site
   configureApacheForMailhog "${VAGRANT_ROOT}/etc/mailhog" || exit 1
 
-  installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" \
-    "${MAGENTO_ADMIN_URI}" "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" \
-    "${MAGENTO_TIMEZONE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
+  prepareForMagentoInstall || exit 1
+
+  installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}"
+  setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" \
+    "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
+    "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
+  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/"
 
   if [[ -f "${composer_auth_file}" ]]; then
     installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || exit 1
   fi
+
+  finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}"  || exit 1
 fi
 
 if [[ "${APACHE_USE_LETSENCRYPT}" == true ]]; then
