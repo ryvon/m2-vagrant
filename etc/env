@@ -1,7 +1,7 @@
 # Vagrant settings
 
 export VAGRANT_IP="192.168.10.129"
-export VAGRANT_HOST="magento2.vagrant"
+export VAGRANT_HOSTNAME="magento2.vagrant"
 export VAGRANT_HOSTMANAGER_ENABLED=false
 export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
@@ -42,7 +42,7 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 
 export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 
-# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOST
+# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOSTNAME
 # for the LetsEncrypt servers to authenticate the certificate
 export APACHE_USE_LETSENCRYPT=false
 

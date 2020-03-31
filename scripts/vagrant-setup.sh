@@ -39,7 +39,7 @@ fi
 
 if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   configureMysqlForMagento "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
-  configureApacheForMagento "${VAGRANT_ROOT}/etc/apache" "${VAGRANT_HOST}" "${APACHE_DOCUMENT_ROOT}" || exit 1
+  configureApacheForMagento "${VAGRANT_ROOT}/etc/apache" "${VAGRANT_HOSTNAME}" "${APACHE_DOCUMENT_ROOT}" || exit 1
 
   # Mailhog needs to reconfigure after configureApacheForMagento creates a new site
   configureApacheForMailhog "${VAGRANT_ROOT}/etc/mailhog" || exit 1
@@ -52,17 +52,17 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     installMagentoSampleData "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" || exit 1
   fi
 
-  setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" \
+  setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
     "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
 
-  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" || exit 1
+  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" || exit 1
 
   finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
 fi
 
 if [[ "${APACHE_USE_LETSENCRYPT}" == true ]]; then
-  installLetsEncrypt "${VAGRANT_HOST}" || exit 1
+  installLetsEncrypt "${VAGRANT_HOSTNAME}" || exit 1
 fi
 
 logDebug "vagrant-setup.sh finished"

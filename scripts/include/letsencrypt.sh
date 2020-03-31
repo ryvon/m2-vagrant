@@ -6,7 +6,7 @@ getCertbotVersion() {
 }
 
 installLetsEncrypt() {
-  local vagrant_host=$1
+  local vagrant_hostname=$1
 
   logGroup "Installing certbot"
 
@@ -21,11 +21,11 @@ installLetsEncrypt() {
   fi
 
   logGroup "Requesting certificate from LetsEncrypt"
-  if [[ -d "/etc/letsencrypt/live/${vagrant_host}/" ]]; then
+  if [[ -d "/etc/letsencrypt/live/${vagrant_hostname}/" ]]; then
     logInfo "Certificate already exists"
   else
     local certbot_output
-    certbot_output=$(certbot --apache --agree-tos --register-unsafely-without-email --no-redirect -d "${vagrant_host}" 2>&1)
+    certbot_output=$(certbot --apache --agree-tos --register-unsafely-without-email --no-redirect -d "${vagrant_hostname}" 2>&1)
     local certbot_return=$?
     logDebug "Certbot output: ${certbot_output}"
     if [[ ${certbot_return} -ne 0 ]]; then

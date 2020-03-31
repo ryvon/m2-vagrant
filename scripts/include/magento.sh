@@ -41,7 +41,7 @@ configureMysqlForMagento() {
 
 configureApacheForMagento() {
   local config_path=$1
-  local vagrant_host=$2
+  local vagrant_hostname=$2
   local document_root=$3
 
   logGroup "Configuring apache2 for Magento"
@@ -77,7 +77,7 @@ configureApacheForMagento() {
 
   # Copy the virtual host file and replace the paths in it
   runCommand cp "${vhost_config}" "${vhost_config_location}" || return 1
-  runCommand sed --follow-symlinks -i "s|\[VAGRANT_HOST\]|${vagrant_host}|g" "${vhost_config_location}" || return 1
+  runCommand sed --follow-symlinks -i "s|\[VAGRANT_HOSTNAME\]|${vagrant_hostname}|g" "${vhost_config_location}" || return 1
   runCommand sed --follow-symlinks -i "s|\[APACHE_DOCUMENT_ROOT\]|${document_root}|g" "${vhost_config_location}" || return 1
 
   # Setup the document root

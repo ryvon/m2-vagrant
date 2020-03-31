@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define 'm2-vagrant' do |node|
     node.vm.post_up_message = false
-    node.vm.hostname = ENV['VAGRANT_HOST']
+    node.vm.hostname = ENV['VAGRANT_HOSTNAME']
 
     if ENV.has_key?('VAGRANT_PUBLIC') and ENV['VAGRANT_PUBLIC'] == 'true'
       node.vm.network 'public_network', ip: ENV['VAGRANT_IP']

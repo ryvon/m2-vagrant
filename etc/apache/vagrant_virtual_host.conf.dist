@@ -10,13 +10,13 @@
 </Macro>
 
 <VirtualHost *:80>
-    ServerName [VAGRANT_HOST]
+    ServerName [VAGRANT_HOSTNAME]
     Use VHostCommon
 </VirtualHost>
 
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
-        ServerName [VAGRANT_HOST]
+        ServerName [VAGRANT_HOSTNAME]
         Use VHostCommon
 
         SSLEngine on
