@@ -153,7 +153,7 @@ testUrl() {
 
   curl_cookie_file=$(mktemp)
   curl_error_file=$(mktemp)
-  curl_response="$(curl --silent --show-error --location --insecure --max-time 10 --connect-timeout 2 \
+  curl_response="$(curl --silent --show-error --location --insecure --max-time 10 --connect-timeout 5 \
     --cookie "${curl_cookie_file}" --header "Host: ${pretend_host}" \
     "https://${check_host}/${check_uri}" 2>"${curl_error_file}")"
 
