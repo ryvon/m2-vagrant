@@ -8,7 +8,7 @@ export VAGRANT_ROOT='/vagrant'
 logDebug "vagrant-setup.sh started"
 
 if [[ -n "${MAGENTO_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" ]]; then
-  logError "Magneto archive specified but doesn't exist at \"${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}\""
+  logError "Magento archive specified but doesn't exist at \"${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}\""
   exit 1
 fi
 
