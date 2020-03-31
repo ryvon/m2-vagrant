@@ -48,17 +48,17 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
 
   prepareForMagentoInstall || exit 1
 
-  installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}"
+  installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" || exit 1
 
   if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
-    installMagentoSampleData "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}"
+    installMagentoSampleData "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" || exit 1
   fi
 
   setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" \
     "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
 
-  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/"
+  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" || exit 1
 
   if [[ -f "${composer_auth_file}" ]]; then
     installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || exit 1
