@@ -24,7 +24,7 @@ installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
 
-vagrant_ssh_key_file="${VAGRANT_ROOT}/etc/ssh/host.pub"
+vagrant_ssh_key_file="${VAGRANT_ROOT}/etc/ssh/${VAGRANT_SSH_KEY}"
 if [[ -f "${vagrant_ssh_key_file}" ]]; then
   installSshKey "/home/vagrant/.ssh" "${vagrant_ssh_key_file}" || exit 1
 fi
@@ -53,7 +53,7 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || exit 1
   fi
 
-  finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}"  || exit 1
+  finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
 fi
 
 if [[ "${APACHE_USE_LETSENCRYPT}" == true ]]; then
