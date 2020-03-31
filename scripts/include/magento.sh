@@ -209,6 +209,7 @@ setupMagentoDatabaseDefault() {
 configureMagento() {
   local magento_install_path=$1
   local magento_base_url=$2
+  local magento_admin_uri=$3
 
   local magento_bin="${magento_install_path}/bin/magento"
 
@@ -216,6 +217,9 @@ configureMagento() {
 
   logInfo "Setting developer mode"
   runCommand su vagrant -c "${magento_bin} deploy:mode:set developer" || return 1
+
+  logInfo "Setting admin URL"
+  runCommand su vagrant -c "${magento_bin} setup:config:set --backend-frontname='${magento_admin_uri}'" || return 1
 
   logInfo "Setting base URLs"
   runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_url '${magento_base_url}'" || return 1

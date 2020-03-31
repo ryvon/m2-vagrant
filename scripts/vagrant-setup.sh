@@ -56,7 +56,7 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
 
-  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" || exit 1
+  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" || exit 1
 
   finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
 fi
