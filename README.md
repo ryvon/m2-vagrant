@@ -1,14 +1,17 @@
 # M2 Vagrant
 
-A Vagrant box for Magento 2 development.  It expects the VirtualBox provider to be available.
+A Vagrant box for Magento 2 development.  Requires the VirtualBox provider.
 
 ## Installation
 
-1. Install Vagrant
-2. Configure `composer/auth.json` and `app/etc` 
-3. Run `vagrant up`
+1. Install [Vagrant](https://www.vagrantup.com/)
+2. Clone the repository
+3. Configure `app/etc` and `composer/auth.json`
+4. Run `vagrant up` from the clone directory
 
-Magento and the sample data will be downloaded during provisioning unless commented out in `etc/env`.  Magento will be reinstalled with each `vagrant provision` command run. 
+If `MAGENTO_ARCHIVE` or `MAGENTO_SAMPLE_DATA_ARCHIVE` is defined but does not exist the provisioning script will attempt
+to download the versions specified in `etc/env`.  To disable the download comment out the variables or ensure the
+archives exist before provisioning.  Magento will be completely reinstalled with each `vagrant provision` command.
 
 ## If using WSL
 
