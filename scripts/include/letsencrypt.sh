@@ -24,7 +24,11 @@ installLetsEncrypt() {
   if [[ -d "/etc/letsencrypt/live/${vagrant_host}/" ]]; then
     logInfo "Certificate already exists"
   else
-    if ! certbot --apache --agree-tos --register-unsafely-without-email --no-redirect -d "${vagrant_host}" 2>&1; then
+    local certbot_output
+    certbot_output=$(certbot --apache --agree-tos --register-unsafely-without-email --no-redirect -d "${vagrant_host}" 2>&1)
+    local certbot_return=$?
+    logDebug "Certbot output: ${certbot_output}"
+    if [[ ${certbot_return} -ne 0 ]]; then
       logError "Certificate generation failed, check log"
       return 1
     fi
