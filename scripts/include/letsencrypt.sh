@@ -15,7 +15,11 @@ installLetsEncrypt() {
   if [[ -n "${existing_version}" ]]; then
     logInfo "certbot already installed (${existing_version})"
   else
-    echo deb http://deb.debian.org/debian stretch-backports main | tee -a /etc/apt/sources.list.d/backports.list
+    local backports_line="deb http://deb.debian.org/debian stretch-backports main"
+    local backports_file="/etc/apt/sources.list.d/backports.list"
+    if [[ ! -f "${backports_file}" ]] || ! grep -q "${backports_line}" "${backports_file}"; then
+      echo "${backports_line}" | tee -a "${backports_file}" >/dev/null
+    fi
     runCommand apt-get update || return 1
     runCommand apt-get -y install certbot python-certbot-apache -t stretch-backports || return 1
   fi
