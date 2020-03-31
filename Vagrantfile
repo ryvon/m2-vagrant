@@ -30,8 +30,8 @@ Vagrant.configure("2") do |config|
     end
 
     if ENV.has_key?('VAGRANT_FORWARD_PORTS') and ENV['VAGRANT_FORWARD_PORTS'] == 'true'
-      node.vm.network 'forwarded_port', guest: 80, host: 18080
-      node.vm.network 'forwarded_port', guest: 443, host: 18043
+      node.vm.network 'forwarded_port', guest: 80, host: ENV['VAGRANT_FORWARD_PORT_HTTP']
+      node.vm.network 'forwarded_port', guest: 443, host: ENV['VAGRANT_FORWARD_PORT_HTTPS']
     end
 
     node.vm.synced_folder '.', '/vagrant', type: 'virtualbox'
@@ -42,6 +42,6 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.provision 'provision-setup', type: 'shell', path: 'scripts/setup.sh', keep_color: true
-  config.vm.provision 'provision-test',  type: 'shell', path: 'scripts/test.sh', run: 'always', keep_color: true
+  config.vm.provision 'provision-setup', type: 'shell', path: 'scripts/vagrant-setup.sh', keep_color: true
+  config.vm.provision 'provision-test',  type: 'shell', path: 'scripts/vagrant-test.sh', run: 'always', keep_color: true
 end

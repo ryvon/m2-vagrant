@@ -1,43 +1,52 @@
-# Uncomment to expose on public networks https://www.vagrantup.com/docs/networking/public_network.html
-# It is safer to use VAGRANT_FORWARD_PORTS and forward 18080 and 18043 to the host machine.
-#export VAGRANT_PUBLIC=true
+# Vagrant settings
+
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_HOST="magento2.vagrant"
-export VAGRANT_FORWARD_PORTS=false
 export VAGRANT_HOSTMANAGER_ENABLED=false
-
-export VAGRANT_ROOT="/vagrant"
 export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
 
-export APACHE_ROOT="/var/www/html"
+# This will forward the specified ports from the host to vagrant's 80 and 443 ports
+export VAGRANT_FORWARD_PORTS=true
+export VAGRANT_FORWARD_PORT_HTTP=18080
+export VAGRANT_FORWARD_PORT_HTTPS=18043
+
+# Uncomment to expose on public networks https://www.vagrantup.com/docs/networking/public_network.html
+# It is safer to use VAGRANT_FORWARD_PORTS and forward VAGRANT_FORWARD_PORT_HTTP and VAGRANT_FORWARD_PORT_HTTPS to the
+# host machine
+#export VAGRANT_PUBLIC=true
+
+# Apache settings
+
+export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 
 # To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOST
-# for the LetsEncrypt servers to query
-export APACHE_USE_LETSENCRYPT=false
+# for the LetsEncrypt servers to authenticate the certificate
+export APACHE_USE_LETSENCRYPT=true
+
+# PHP settings
+
+export PHP_VERSION="7.1"
+
+# MySQL settings
 
 export MYSQL_DATABASE="magento"
 export MYSQL_USER="magento"
 export MYSQL_PASSWORD="magentoMysqlPassword"
 
-export COMPOSER_HOME="/home/vagrant/.composer"
-export COMPOSER_BIN="/usr/local/bin/composer"
+# Magento settings
 
-export MAGENTO_REPO_NAME="magento/project-community-edition"
-export MAGENTO_REPO_URL="https://repo.magento.com/"
-export MAGENTO_REPO_VERSION="2.2.9"
-export MAGENTO_SAMPLE_DATA_VERSION="2.2"
-
-# Comment out to disable Magento or sample data installation
-export MAGENTO_ARCHIVE="magento-${MAGENTO_REPO_VERSION}.tar"
-export MAGENTO_SAMPLE_DATA_ARCHIVE="magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
-
-export MAGENTO_BASE_URL="https://${VAGRANT_HOST}/"
-export MAGENTO_ADMIN_URI="admin"
-export MAGENTO_ADMIN_URL="https://${VAGRANT_HOST}/${MAGENTO_ADMIN_URI}/"
-export MAGENTO_SEARCH_PATTERN="All rights reserved."
+export MAGENTO_DOCUMENT_ROOT="/var/www/html"
+export MAGENTO_ADMIN_URI="dev_admin"
 
 export MAGENTO_ADMIN_EMAIL="admin@example.com"
 export MAGENTO_ADMIN_USER="admin"
 export MAGENTO_ADMIN_PASSWORD="admin123"
 export MAGENTO_TIMEZONE="America/New_York"
+
+export MAGENTO_REPO_NAME="magento/project-community-edition"
+export MAGENTO_REPO_URL="https://repo.magento.com/"
+export MAGENTO_REPO_VERSION="2.3.3-p1"
+
+# Comment out to disable Magento installation
+export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar"

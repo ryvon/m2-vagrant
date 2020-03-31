@@ -1,20 +1,6 @@
-<Macro VHostProxyMailhog>
-    RewriteEngine on
-    RewriteRule ^/mailhog$ /mailhog/ [R,L]
-    <LocationMatch "^/mailhog">
-        RequestHeader unset Accept-Encoding
-        AddOutputFilterByType SUBSTITUTE text/html
-        Substitute "s|<meta charset=\"utf-8\">|<meta charset=\"utf-8\"><base href=\"/mailhog/\">|ni"
-    </LocationMatch>
-    ProxyPassMatch   "^/mailhog/api/v2/websocket(.*)" "ws://localhost:8025/api/v2/websocket$1"
-    ProxyPassReverse "^/mailhog/api/v2/websocket(.*)" "ws://localhost:8025/api/v2/websocket$1"
-    ProxyPassMatch   "^/mailhog/(.*)" "http://localhost:8025/$1"
-    ProxyPassReverse "^/mailhog/(.*)" "http://localhost:8025/$1"
-</Macro>
-
 <Macro VHostCommon>
-    DocumentRoot "[APACHE_ROOT]"
-    <Directory "[APACHE_ROOT]">
+    DocumentRoot "[APACHE_DOCUMENT_ROOT]"
+    <Directory "[APACHE_DOCUMENT_ROOT]">
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
@@ -25,14 +11,12 @@
 
 <VirtualHost *:80>
     ServerName [VAGRANT_HOST]
-    Use VHostProxyMailhog
     Use VHostCommon
 </VirtualHost>
 
 <IfModule mod_ssl.c>
     <VirtualHost *:443>
         ServerName [VAGRANT_HOST]
-        Use VHostProxyMailhog
         Use VHostCommon
 
         SSLEngine on
@@ -41,5 +25,4 @@
     </VirtualHost>
 </IfModule>
 
-UndefMacro VHostProxyMailhog
 UndefMacro VHostCommon
