@@ -46,7 +46,7 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     "${MAGENTO_TIMEZONE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
 
   if [[ -f "${composer_auth_file}" ]]; then
-    installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || return 1
+    installComposerAuth "${composer_auth_file}" "${MAGENTO_DOCUMENT_ROOT}/var/composer_home/auth.json" "vagrant" || exit 1
   fi
 fi
 
