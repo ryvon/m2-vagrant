@@ -42,8 +42,8 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 
 export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 
-# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOSTNAME
-# for the LetsEncrypt servers to authenticate the certificate
+# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the Vagrant machine must be publicly
+# accessible at http://$VAGRANT_HOSTNAME/ for the LetsEncrypt servers to authenticate the certificate
 export APACHE_USE_LETSENCRYPT=false
 
 # PHP settings
