@@ -142,6 +142,35 @@ installMagentoFiles() {
   runCommand chmod u+x "${magento_bin}" || return 1
 }
 
+installMagentoSampleData() {
+  local sample_data_archive=$1
+  local magento_install_path=$2
+
+  logGroup "Installing sample data files from \"${sample_data_archive}\""
+
+  if [[ ! -f "${sample_data_archive}" ]]; then
+    logError "sample data archive not found"
+    return 1
+  fi
+
+  local sample_data_temp="/home/vagrant/magento-sample-data"
+
+  if [[ -d "${sample_data_temp}" ]]; then
+    logInfo "Cleaning up old sample data directory"
+    runCommand rm -rf "${sample_data_temp}" || return 1
+  fi
+
+  runCommand mkdir "${sample_data_temp}" || return 1
+  runCommand chown vagrant:vagrant "${sample_data_temp}" || return 1
+
+  logInfo "Extracting sample data temporary location"
+  runCommand tar xf "${sample_data_archive}" --directory "${sample_data_temp}" || return 1
+
+  logInfo "Copying sample data to \"${magento_install_path}\""
+  runCommand su vagrant -c "cp -R '${sample_data_temp}/app/' '${sample_data_temp}/dev/' '${sample_data_temp}/pub/' '${magento_install_path}'" || return 1
+  runCommand rm -rf "${sample_data_temp}" || return 1
+}
+
 setupMagentoDatabaseDefault() {
   local magento_install_path=$1
   local magento_base_url=$2

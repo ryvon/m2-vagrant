@@ -12,6 +12,11 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}"
   exit 1
 fi
 
+if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
+  logError "Magento sample data archive specified but doesn't exist at \"${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}\""
+  exit 1
+fi
+
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
@@ -44,9 +49,15 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   prepareForMagentoInstall || exit 1
 
   installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}"
+
+  if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
+    installMagentoSampleData "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}"
+  fi
+
   setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/" "${MAGENTO_ADMIN_URI}" \
     "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
+
   configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOST}/"
 
   if [[ -f "${composer_auth_file}" ]]; then
