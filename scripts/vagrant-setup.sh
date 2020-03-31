@@ -41,9 +41,6 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   configureMysqlForMagento "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
   configureApacheForMagento "${VAGRANT_ROOT}/etc/apache" "${VAGRANT_HOSTNAME}" "${APACHE_DOCUMENT_ROOT}" || exit 1
 
-  # Mailhog needs to reconfigure after configureApacheForMagento creates a new site
-  configureApacheForMailhog "${VAGRANT_ROOT}/etc/mailhog" || exit 1
-
   prepareForMagentoInstall || exit 1
 
   installMagentoFiles "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" || exit 1
