@@ -52,6 +52,6 @@ export MAGENTO_REPO_URL="https://repo.magento.com/"
 export MAGENTO_REPO_VERSION="2.3.3-p1"
 export MAGENTO_SAMPLE_DATA_VERSION="${MAGENTO_REPO_VERSION%.*}" # Strip repo version to major.minor
 
-# Comment out to disable Magento installation
-export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar"
-export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar"
+# Comment out to disable Magento or sample data installation
+export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar.gz"
+export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar.gz"

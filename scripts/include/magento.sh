@@ -228,3 +228,79 @@ configureMagento() {
   runCommand su vagrant -c "${magento_bin} cache:enable" || return 1
   runCommand su vagrant -c "${magento_bin} cache:flush" || return 1
 }
+
+downloadMagento() {
+  local magento_repo_name=$1
+  local magento_repo_url=$2
+  local magento_version=$3
+  local archive_to_path=$4
+
+  local magento_repo_request=${magento_repo_name}
+  if [[ -n "${magento_version}" ]]; then
+    magento_repo_request="${magento_repo_name}=${magento_version}"
+  fi
+
+  local temp_path
+  temp_path=$(su vagrant -c "mktemp -d")
+
+  logGroup "Downloading Magneto"
+
+  if [[ -f "${archive_to_path}" ]]; then
+    logInfo "Magento archive already exists at \"${archive_to_path}\""
+    return 0
+  fi
+
+  logInfo "Cloning \"${magento_repo_request}\" from \"${magento_repo_url}\""
+
+  local composer_output
+  local composer_return
+  # Composer doesn't like running as root so we use su, this also lets us use the already installed auth.json
+  composer_output=$(su vagrant -c "composer --ignore-platform-reqs --no-interaction --no-progress create-project '${magento_repo_request}' \
+    '${temp_path}' --repository-url='${magento_repo_url}'" 2>&1)
+  composer_return=$?
+  logDebug "Output: ${composer_output}"
+  if [[ ${composer_return} -ne 0 ]]; then
+    logError "Failed to download, check log"
+    return 1
+  fi
+
+  logInfo "Archiving to \"${archive_to_path}\""
+  createArchive "${archive_to_path}" "${temp_path}" || return 1
+
+  logInfo "Cleaning up"
+  runCommand rm -rf "${temp_path}" || return 1
+}
+
+downloadSampleData() {
+  local sample_data_version=$1
+  local archive_to_path=$2
+
+  local repo_url="https://github.com/magento/magento2-sample-data.git"
+  local temp_path
+  temp_path=$(mktemp -d)
+
+  logGroup "Downloading sample data"
+
+  if [[ -f "${archive_to_path}" ]]; then
+    logInfo "Sample data archive already exists at \"${archive_to_path}\""
+    return 0
+  fi
+
+  logInfo "Cloning branch \"${sample_data_version}\" from \"${repo_url}\""
+
+  local git_output
+  git_output=$(git clone "${repo_url}" --single-branch --branch "${sample_data_version}" "${temp_path}" 2>&1)
+
+  local git_return=$?
+  logDebug "Output: ${git_output}"
+  if [[ ${git_return} -ne 0 ]]; then
+    logError "Failed to clone sample data repo, check log"
+    return 1
+  fi
+
+  logInfo "Archiving to \"${archive_to_path}\""
+  createArchive "${archive_to_path}" "${temp_path}" || return 1
+
+  logInfo "Cleaning up"
+  runCommand rm -rf "${temp_path}" || return 1
+}

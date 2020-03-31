@@ -7,16 +7,6 @@ export VAGRANT_ROOT='/vagrant'
 
 logDebug "vagrant-setup.sh started"
 
-if [[ -n "${MAGENTO_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" ]]; then
-  logError "Magento archive specified but doesn't exist at \"${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}\""
-  exit 1
-fi
-
-if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
-  logError "Magento sample data archive specified but doesn't exist at \"${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}\""
-  exit 1
-fi
-
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
@@ -37,6 +27,14 @@ fi
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
 if [[ -f "${composer_auth_file}" ]]; then
   installComposerAuth "${composer_auth_file}" "/home/vagrant/.composer/auth.json" "vagrant" || exit 1
+fi
+
+if [[ -n "${MAGENTO_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" ]]; then
+  downloadMagento "${MAGENTO_REPO_NAME}" "${MAGENTO_REPO_URL}" "${MAGENTO_REPO_VERSION}" "${VAGRANT_ROOT}/${MAGENTO_ARCHIVE}" || exit 1
+fi
+
+if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]]; then
+  downloadSampleData "${MAGENTO_SAMPLE_DATA_VERSION}" "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" || exit 1
 fi
 
 if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
