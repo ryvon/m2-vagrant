@@ -19,24 +19,6 @@ export VAGRANT_SSH_KEY="host.pub"
 # host machine
 #export VAGRANT_PUBLIC=true
 
-# Apache settings
-
-export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
-
-# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOST
-# for the LetsEncrypt servers to authenticate the certificate
-export APACHE_USE_LETSENCRYPT=false
-
-# PHP settings
-
-export PHP_VERSION="7.1"
-
-# MySQL settings
-
-export MYSQL_DATABASE="magento"
-export MYSQL_USER="magento"
-export MYSQL_PASSWORD="magentoMysqlPassword"
-
 # Magento settings
 
 export MAGENTO_DOCUMENT_ROOT="/var/www/html"
@@ -55,3 +37,21 @@ export MAGENTO_SAMPLE_DATA_VERSION="${MAGENTO_REPO_VERSION%.*}" # Strip repo ver
 # Comment out to disable Magento or sample data installation
 export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar.gz"
 export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar.gz"
+
+# Apache settings
+
+export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
+
+# To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOST
+# for the LetsEncrypt servers to authenticate the certificate
+export APACHE_USE_LETSENCRYPT=false
+
+# PHP settings
+
+export PHP_VERSION="7.1"
+
+# MySQL settings
+
+export MYSQL_DATABASE="magento"
+export MYSQL_USER="magento"
+export MYSQL_PASSWORD="magentoMysqlPassword"
