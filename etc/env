@@ -25,7 +25,7 @@ export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 
 # To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the guest must be available at VAGRANT_HOST
 # for the LetsEncrypt servers to authenticate the certificate
-export APACHE_USE_LETSENCRYPT=true
+export APACHE_USE_LETSENCRYPT=false
 
 # PHP settings
 
