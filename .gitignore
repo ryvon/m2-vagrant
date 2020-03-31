@@ -3,5 +3,3 @@
 .vagrant
 
 etc/composer/auth.json
-
-source
