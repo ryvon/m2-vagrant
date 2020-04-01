@@ -270,17 +270,9 @@ downloadMagento() {
 
   logInfo "Cloning \"${magento_repo_request}\" from \"${magento_repo_url}\""
 
-  local composer_output
-  local composer_return
   # Composer doesn't like running as root so we use su, this also lets us use the already installed auth.json
-  composer_output=$(su vagrant -c "composer --ignore-platform-reqs --no-interaction --no-progress create-project '${magento_repo_request}' \
-    '${temp_path}' --repository-url='${magento_repo_url}'" 2>&1)
-  composer_return=$?
-  logDebug "Output: ${composer_output}"
-  if [[ ${composer_return} -ne 0 ]]; then
-    logError "Failed to download, check log"
-    return 1
-  fi
+  runCommand su vagrant -c "composer --ignore-platform-reqs --no-interaction --no-progress \
+    create-project '${magento_repo_request}' '${temp_path}' --repository-url='${magento_repo_url}'" || return 1
 
   logInfo "Archiving to \"${archive_to_path}\""
   createArchive "${archive_to_path}" "${temp_path}" || return 1
