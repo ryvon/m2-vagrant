@@ -19,7 +19,7 @@ installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
 
-vagrant_ssh_key_file="${VAGRANT_ROOT}/etc/ssh/${VAGRANT_SSH_KEY}"
+vagrant_ssh_key_file="${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}"
 if [[ -f "${vagrant_ssh_key_file}" ]]; then
   installSshKey "/home/vagrant/.ssh" "${vagrant_ssh_key_file}" || exit 1
 fi

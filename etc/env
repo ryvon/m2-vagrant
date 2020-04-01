@@ -14,8 +14,8 @@ export VAGRANT_FORWARD_PORTS=true
 export VAGRANT_FORWARD_PORT_HTTP=18080
 export VAGRANT_FORWARD_PORT_HTTPS=18043
 
-# If this public key exists it will be installed to ~/authorized_keys
-export VAGRANT_SSH_KEY="host.pub"
+# If this public key exists it will be installed to ~/authorized_keys, path relative to m2-vagrant directory
+export VAGRANT_SSH_KEY="etc/ssh/host.pub"
 
 # Uncomment to expose on public networks https://www.vagrantup.com/docs/networking/public_network.html
 # It is safer to use VAGRANT_FORWARD_PORTS and forward VAGRANT_FORWARD_PORT_HTTP and VAGRANT_FORWARD_PORT_HTTPS to the
@@ -37,7 +37,7 @@ export MAGENTO_REPO_URL="https://repo.magento.com/"
 export MAGENTO_REPO_VERSION="2.3.3-p1"
 export MAGENTO_SAMPLE_DATA_VERSION="${MAGENTO_REPO_VERSION%.*}" # Strip repo version to major.minor
 
-# Comment out to disable Magento or sample data installation
+# Comment out to disable Magento or sample data installation, paths relative to m2-vagrant directory
 export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar.gz"
 export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar.gz"
 
