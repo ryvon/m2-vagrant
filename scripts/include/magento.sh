@@ -237,7 +237,13 @@ configureMagento() {
 
   logInfo "Setting base URLs"
   runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_url '${magento_base_url}'" || return 1
-  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_url '${magento_base_url}'" || return 1
+  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_url   '${magento_base_url}'" || return 1
+
+  runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_static_url ''" || return 1
+  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_static_url   ''" || return 1
+
+  runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_media_url ''" || return 1
+  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_media_url   ''" || return 1
 
   logInfo "Disabling Recaptcha"
   runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
