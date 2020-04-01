@@ -24,12 +24,14 @@ export VAGRANT_FORWARD_PORT_HTTPS=18043
 
 # Magento settings
 
+# Absolute path to the Magento installation
 export MAGENTO_DOCUMENT_ROOT="/var/www/html"
-export MAGENTO_ADMIN_URI="dev_admin"
 
+export MAGENTO_ADMIN_URI="dev_admin"
 export MAGENTO_ADMIN_EMAIL="admin@example.com"
 export MAGENTO_ADMIN_USER="admin"
 export MAGENTO_ADMIN_PASSWORD="adminPassword123"
+
 export MAGENTO_TIMEZONE="America/New_York"
 
 export MAGENTO_REPO_NAME="magento/project-community-edition"
@@ -43,6 +45,7 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 
 # Apache settings
 
+# Absolute path to the Apache document root
 export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 
 # To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the Vagrant machine must be publicly
