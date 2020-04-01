@@ -2,9 +2,12 @@
 
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_HOSTNAME="magento2.vagrant"
-export VAGRANT_HOSTMANAGER_ENABLED=false
 export VAGRANT_MEMORY=2048
 export VAGRANT_CPUS=2
+
+# If set to true vagrant-hostmanager will attempt to update the hosts file to point VAGRANT_HOSTNAME to VAGRANT_IP
+# To enable the Vagrant Host Manager plugin must be installed https://github.com/devopsgroup-io/vagrant-hostmanager
+export VAGRANT_HOSTMANAGER_ENABLED=false
 
 # This will forward the specified ports from the host to vagrant's 80 and 443 ports
 export VAGRANT_FORWARD_PORTS=true
