@@ -126,9 +126,11 @@ finishMagentoInstall() {
   logInfo "Starting apache2"
   runCommand service apache2 start || return 1
 
-  logInfo "Installing cron"
-  local magento_bin="${magento_install_path}/bin/magento"
-  runCommand su vagrant -c "${magento_bin} cron:install" || return 1
+  if [[ "${MAGENTO_ENABLE_CRONJOBS}" == true ]]; then
+    logInfo "Installing cron"
+    local magento_bin="${magento_install_path}/bin/magento"
+    runCommand su vagrant -c "${magento_bin} cron:install" || return 1
+  fi
 }
 
 installMagentoFiles() {

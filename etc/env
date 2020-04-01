@@ -47,6 +47,8 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 # If specified this database will be imported instead of running setup:install, path relative to m2-vagrant directory
 #export MAGENTO_IMPORT_DATABASE="source/database.tar.gz"
 
+export MAGENTO_ENABLE_CRONJOBS=true
+
 ### Apache settings
 
 # Absolute path to the Apache document root
