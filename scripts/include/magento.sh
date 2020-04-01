@@ -232,10 +232,19 @@ configureMagento() {
   local magento_install_path=$1
   local magento_base_url=$2
   local magento_admin_uri=$3
+  local mysql_database=$4
+  local mysql_user=$5
+  local mysql_password=$6
 
   local magento_bin="${magento_install_path}/bin/magento"
 
   logGroup "Configuring Magento"
+
+  logInfo "Setting database configuration"
+  runCommand su vagrant -c "${magento_bin} setup:config:set --db-host='localhost'" || return 1
+  runCommand su vagrant -c "${magento_bin} setup:config:set --db-name='${mysql_database}'" || return 1
+  runCommand su vagrant -c "${magento_bin} setup:config:set --db-user='${mysql_user}'" || return 1
+  runCommand su vagrant -c "${magento_bin} setup:config:set --db-password='${mysql_password}'" || return 1
 
   logInfo "Setting developer mode"
   runCommand su vagrant -c "${magento_bin} deploy:mode:set developer" || return 1
