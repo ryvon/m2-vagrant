@@ -81,14 +81,7 @@ configureApacheForMagento() {
 
   logInfo "Installing new site"
   # Find the virtual host file we want to copy
-  local custom_vhost_config="${config_path}/vagrant_virtual_host.conf"
-  local dist_custom_vhost_config="${config_path}/vagrant_virtual_host.conf.dist"
-  local vhost_config
-  if [[ -f ${custom_vhost_config} ]]; then
-    vhost_config=${custom_vhost_config}
-  else
-    vhost_config=${dist_custom_vhost_config}
-  fi
+  local vhost_config="${config_path}/virtual-host.conf"
 
   # Copy the virtual host file and replace the paths in it
   runCommand cp "${vhost_config}" "${vhost_config_location}" || return 1
