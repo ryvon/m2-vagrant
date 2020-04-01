@@ -91,13 +91,17 @@ runCommand() {
   command_errors=$(cat "${command_errors_file}")
   rm "${command_errors_file}"
 
-  if [[ ${command_result} -ne 0 ]] || [[ -n "${command_errors}" ]]; then
+  if [[ ${command_result} -ne 0 ]]; then
     if [[ -z "${command_errors}" ]]; then
       logError "Unknown error"
     else
       logError "${command_errors}"
     fi
     return 1
+  fi
+
+  if [[ -n "${command_errors}" ]]; then
+    logDebug "Command reported success but had stderr output: ${command_errors}"
   fi
 }
 
