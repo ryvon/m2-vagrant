@@ -51,7 +51,7 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
 
   setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
     "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
-    "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" "${composer_auth_file}" || exit 1
+    "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
 
   configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" || exit 1
 
