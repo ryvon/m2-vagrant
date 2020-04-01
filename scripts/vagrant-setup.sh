@@ -7,6 +7,11 @@ export VAGRANT_ROOT='/vagrant'
 
 logDebug "vagrant-setup.sh started"
 
+if [[ -n "${VAGRANT_SSH_KEY}" ]] && [[ ! -f "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}" ]]; then
+  logError "Specified SSH key not found at \"${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}\""
+  exit 1
+fi
+
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
@@ -19,9 +24,8 @@ installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
 
-vagrant_ssh_key_file="${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}"
-if [[ -f "${vagrant_ssh_key_file}" ]]; then
-  installSshKey "/home/vagrant/.ssh" "${vagrant_ssh_key_file}" || exit 1
+if [[ -n "${VAGRANT_SSH_KEY}" ]]; then
+  installSshKey "/home/vagrant/.ssh" "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}" || exit 1
 fi
 
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
