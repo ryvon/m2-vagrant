@@ -106,7 +106,7 @@ configureApacheForMagento() {
   runCommand a2ensite vagrant.conf || return 1
 
   # Mailhog needs to reconfigure after the new site is added
-  logInfo "Configuring mailhog"
+  logInfo "Reconfiguring mailhog"
   configureApacheForMailhog "${VAGRANT_ROOT}/etc/mailhog" || exit 1
 
   logInfo "Restarting apache2"
