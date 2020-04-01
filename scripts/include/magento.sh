@@ -251,7 +251,7 @@ downloadMagento() {
   local temp_path
   temp_path=$(su vagrant -c "mktemp -d")
 
-  logGroup "Downloading Magneto"
+  logGroup "Downloading Magento"
 
   if [[ -f "${archive_to_path}" ]]; then
     logInfo "Magento archive already exists at \"${archive_to_path}\""
