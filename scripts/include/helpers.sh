@@ -180,6 +180,20 @@ testUrl() {
   return 1
 }
 
+isArchive() {
+  local file=$1
+
+  if [[ "${file}" == *.tar.gz ]]; then
+    return 0
+  elif [[ "${file}" == *.tar.bz2 ]]; then
+    return 0
+  elif [[ "${file}" == *.tar ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 createArchive() {
   local archive_file=$1
   local path_to_compress=$2

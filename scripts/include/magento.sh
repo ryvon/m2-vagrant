@@ -177,7 +177,20 @@ installMagentoSampleData() {
   runCommand rm -rf "${sample_data_temp}" || return 1
 }
 
-setupMagentoDatabaseDefault() {
+installMagentoDatabaseImport() {
+  local import_file=$1
+  local mysql_database=$2
+  local mysql_user=$3
+  local mysql_password=$4
+
+  logGroup "Importing Magento database"
+
+  createMagentoDatabase "${mysql_database}" "${mysql_user}" "${mysql_password}" || retun 1
+
+  importDatabase "${mysql_user}" "${mysql_password}" "${mysql_database}" "${import_file}"
+}
+
+installMagentoDatabaseSetup() {
   local magento_install_path=$1
   local magento_base_url=$2
   local magento_admin_uri=$3
@@ -189,7 +202,7 @@ setupMagentoDatabaseDefault() {
   local mysql_user=$9
   local mysql_password=${10}
 
-  logGroup "Creating Magento database"
+  logGroup "Installing Magento database"
 
   createMagentoDatabase "${mysql_database}" "${mysql_user}" "${mysql_password}" || retun 1
 

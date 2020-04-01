@@ -12,6 +12,11 @@ if [[ -n "${VAGRANT_SSH_KEY}" ]] && [[ ! -f "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}"
   exit 1
 fi
 
+if [[ -n "${MAGENTO_IMPORT_DATABASE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}" ]]; then
+  logError "Specified import database not found at \"${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}\""
+  exit 1
+fi
+
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
@@ -53,9 +58,13 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     installMagentoSampleData "${VAGRANT_ROOT}/${MAGENTO_SAMPLE_DATA_ARCHIVE}" "${MAGENTO_DOCUMENT_ROOT}" || exit 1
   fi
 
-  setupMagentoDatabaseDefault "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
-    "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
-    "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
+  if [[ -n "${MAGENTO_IMPORT_DATABASE}" ]]; then
+    installMagentoDatabaseImport "${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
+  else
+    installMagentoDatabaseSetup "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
+      "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
+      "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
+  fi
 
   configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" || exit 1
 

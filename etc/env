@@ -24,6 +24,9 @@ export VAGRANT_FORWARD_PORT_HTTPS=18043
 
 # Magento settings
 
+# If specified this database will be imported instead of running setup:install, path relative to m2-vagrant directory
+#export MAGENTO_IMPORT_DATABASE="source/database.tar.gz"
+
 # Absolute path to the Magento installation
 export MAGENTO_DOCUMENT_ROOT="/var/www/html"
 
