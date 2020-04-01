@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
 
+createMagentoDatabase() {
+  local mysql_database=$1
+  local mysql_user=$2
+  local mysql_password=$3
+
+  if [[ -z "$(mysql -u "${mysql_user}" -p"${mysql_password}" -sse "show databases;" 2>/dev/null)" ]]; then
+    logInfo "Creating user \"${mysql_user}\""
+    runCommand mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}';" || return 1
+    runCommand mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'%' IDENTIFIED BY '${mysql_password}';" || return 1
+  fi
+
+  if grep -q "${mysql_database}" <<<"$(mysql -u "${mysql_user}" -p"${mysql_password}" -sse "show databases;" 2>/dev/null)"; then
+    logInfo "Dropping database \"${mysql_database}\""
+    runCommand mysql -u root -e "DROP DATABASE IF EXISTS ${mysql_database};" || return 1
+  fi
+
+  logInfo "Creating database \"${mysql_database}\""
+  runCommand mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${mysql_database};" || return 1
+
+  logInfo "Granting privileges"
+  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'localhost';" || return 1
+  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'%';" || return 1
+  runCommand mysql -u root -e "FLUSH PRIVILEGES;" || return 1
+}
+
 configureMysqlForMagento() {
   local mysql_database=$1
   local mysql_user=$2
@@ -26,17 +51,7 @@ configureMysqlForMagento() {
     return 0
   fi
 
-  logInfo "Creating user \"${mysql_user}\""
-  runCommand mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}';" || return 1
-  runCommand mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'%' IDENTIFIED BY '${mysql_password}';" || return 1
-
-  logInfo "Creating database \"${mysql_database}\""
-  runCommand mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${mysql_database};" || return 1
-
-  logInfo "Granting privileges"
-  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'localhost';" || return 1
-  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'%';" || return 1
-  runCommand mysql -u root -e "FLUSH PRIVILEGES;" || return 1
+  createMagentoDatabase "${mysql_database}" "${mysql_user}" "${mysql_password}" || retun 1
 }
 
 configureApacheForMagento() {
@@ -183,12 +198,7 @@ setupMagentoDatabaseDefault() {
 
   logGroup "Creating Magento database"
 
-  logInfo "Emptying current database"
-  runCommand mysql -u root -e "DROP DATABASE ${mysql_database};" || return 1
-  runCommand mysql -u root -e "CREATE DATABASE ${mysql_database};" || return 1
-  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'localhost';" || return 1
-  runCommand mysql -u root -e "GRANT ALL PRIVILEGES ON ${mysql_database}.* TO ${mysql_user}@'%';" || return 1
-  runCommand mysql -u root -e "FLUSH PRIVILEGES;" || return 1
+  createMagentoDatabase "${mysql_database}" "${mysql_user}" "${mysql_password}" || retun 1
 
   logInfo "Running setup:install"
   local magento_bin="${magento_install_path}/bin/magento"
