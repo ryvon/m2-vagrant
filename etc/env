@@ -1,4 +1,4 @@
-# Vagrant settings
+### Vagrant settings
 
 export VAGRANT_IP="192.168.10.129"
 export VAGRANT_HOSTNAME="magento2.vagrant"
@@ -22,10 +22,7 @@ export VAGRANT_FORWARD_PORT_HTTPS=18043
 # host machine
 #export VAGRANT_PUBLIC=true
 
-# Magento settings
-
-# If specified this database will be imported instead of running setup:install, path relative to m2-vagrant directory
-#export MAGENTO_IMPORT_DATABASE="source/database.tar.gz"
+### Magento settings
 
 # Absolute path to the Magento installation
 export MAGENTO_DOCUMENT_ROOT="/var/www/html"
@@ -37,6 +34,7 @@ export MAGENTO_ADMIN_PASSWORD="adminPassword123"
 
 export MAGENTO_TIMEZONE="America/New_York"
 
+# These settings are used to download Magento if the archives below are specified and do not exist
 export MAGENTO_REPO_NAME="magento/project-community-edition"
 export MAGENTO_REPO_URL="https://repo.magento.com/"
 export MAGENTO_REPO_VERSION="2.3.4"
@@ -46,7 +44,10 @@ export MAGENTO_SAMPLE_DATA_VERSION="${MAGENTO_REPO_VERSION%.*}" # Strip repo ver
 export MAGENTO_ARCHIVE="source/magento-${MAGENTO_REPO_VERSION}.tar.gz"
 export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_DATA_VERSION}.tar.gz"
 
-# Apache settings
+# If specified this database will be imported instead of running setup:install, path relative to m2-vagrant directory
+#export MAGENTO_IMPORT_DATABASE="source/database.tar.gz"
+
+### Apache settings
 
 # Absolute path to the Apache document root
 export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
@@ -55,11 +56,11 @@ export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
 # accessible at http://$VAGRANT_HOSTNAME/ for the LetsEncrypt servers to authenticate the certificate
 export APACHE_USE_LETSENCRYPT=false
 
-# PHP settings
+### PHP settings
 
 export PHP_VERSION="7.1"
 
-# MySQL settings
+### MySQL settings
 
 export MYSQL_DATABASE="magento"
 export MYSQL_USER="magento"
