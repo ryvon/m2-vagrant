@@ -241,10 +241,8 @@ configureMagento() {
   logGroup "Configuring Magento"
 
   logInfo "Setting database configuration"
-  runCommand su vagrant -c "${magento_bin} setup:config:set --db-host='localhost'" || return 1
-  runCommand su vagrant -c "${magento_bin} setup:config:set --db-name='${mysql_database}'" || return 1
-  runCommand su vagrant -c "${magento_bin} setup:config:set --db-user='${mysql_user}'" || return 1
-  runCommand su vagrant -c "${magento_bin} setup:config:set --db-password='${mysql_password}'" || return 1
+  runCommand su vagrant -c "${magento_bin} setup:config:set --db-host='localhost' --db-name='${mysql_database}' \
+    --db-user='${mysql_user}' --db-password='${mysql_password}'" || return 1
 
   logInfo "Setting developer mode"
   runCommand su vagrant -c "${magento_bin} deploy:mode:set developer" || return 1
