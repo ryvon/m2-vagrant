@@ -17,6 +17,10 @@ if [[ -n "${MAGENTO_IMPORT_DATABASE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGENTO_I
   exit 1
 fi
 
+if [[ -n "${VAGRANT_SSH_KEY}" ]]; then
+  installSshKey "/home/vagrant/.ssh" "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}" || exit 1
+fi
+
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
@@ -28,10 +32,6 @@ installComposer || exit 1
 installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
-
-if [[ -n "${VAGRANT_SSH_KEY}" ]]; then
-  installSshKey "/home/vagrant/.ssh" "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}" || exit 1
-fi
 
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
 if [[ -f "${composer_auth_file}" ]]; then
