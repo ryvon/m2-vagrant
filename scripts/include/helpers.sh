@@ -83,9 +83,11 @@ runCommand() {
   command_result=$?
 
   if [[ -n "${command_output}" ]]; then
-    logDebug "Output: ${command_output}"
-  else
-    logDebug "Output: none"
+    logDebug " > Exit code: ${command_result}"
+    logDebug " > Output: ${command_output}"
+  elif [[ ${command_result} -ne 0 ]]; then
+    logDebug " > Exit code: ${command_result}"
+    logDebug " > Output: none"
   fi
 
   command_errors=$(cat "${command_errors_file}")
@@ -101,7 +103,7 @@ runCommand() {
   fi
 
   if [[ -n "${command_errors}" ]]; then
-    logDebug "Command reported success but had stderr output: ${command_errors}"
+    logDebug " > Command reported success but had stderr output: ${command_errors}"
   fi
 }
 
