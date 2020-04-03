@@ -49,6 +49,10 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 
 export MAGENTO_ENABLE_CRONJOBS=true
 
+# Set either to false to disable.  Leaving it blank will set the path to blank.
+export MAGENTO_BASE_STATIC_URL=""
+export MAGENTO_BASE_MEDIA_URL=""
+
 ### Apache settings
 
 # Absolute path to the Apache document root

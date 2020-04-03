@@ -250,15 +250,21 @@ configureMagento() {
   logInfo "Setting admin URL"
   runCommand su vagrant -c "${magento_bin} setup:config:set --backend-frontname='${magento_admin_uri}'" || return 1
 
-  logInfo "Setting base URLs"
+  logInfo "Setting base URL"
   runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_url '${magento_base_url}'" || return 1
   runCommand su vagrant -c "${magento_bin} config:set web/secure/base_url   '${magento_base_url}'" || return 1
 
-  runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_static_url ''" || return 1
-  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_static_url   ''" || return 1
+  if [[ "${MAGENTO_BASE_STATIC_URL}" != false ]]; then
+    logInfo "Setting static URL to \"${MAGENTO_BASE_STATIC_URL}\""
+    runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_static_url '${MAGENTO_BASE_STATIC_URL}'" || return 1
+    runCommand su vagrant -c "${magento_bin} config:set web/secure/base_static_url   '${MAGENTO_BASE_STATIC_URL}'" || return 1
+  fi
 
-  runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_media_url ''" || return 1
-  runCommand su vagrant -c "${magento_bin} config:set web/secure/base_media_url   ''" || return 1
+  if [[ "${MAGENTO_BASE_MEDIA_URL}" != false ]]; then
+    logInfo "Setting media URL to \"${MAGENTO_BASE_MEDIA_URL}\""
+    runCommand su vagrant -c "${magento_bin} config:set web/unsecure/base_media_url '${MAGENTO_BASE_MEDIA_URL}'" || return 1
+    runCommand su vagrant -c "${magento_bin} config:set web/secure/base_media_url   '${MAGENTO_BASE_MEDIA_URL}'" || return 1
+  fi
 
   logInfo "Disabling Recaptcha"
   runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
