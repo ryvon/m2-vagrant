@@ -3,14 +3,14 @@
 restartServices() {
   logGroup "Restarting services"
 
+  logInfo "Restarting mailhog"
+  runCommand service mailhog restart || return 1
+
   logInfo "Restarting apache2"
   runCommand service apache2 restart || return 1
 
   logInfo "Restarting mysql"
   runCommand service mysql restart || return 1
-
-  logInfo "Restarting mailhog"
-  runCommand service mailhog restart || return 1
 }
 
 updateSystem() {
