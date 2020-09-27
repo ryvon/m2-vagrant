@@ -38,7 +38,6 @@ installPhp() {
     "php${php_version}-intl" \
     "php${php_version}-json" \
     "php${php_version}-mbstring" \
-    "php${php_version}-mcrypt" \
     "php${php_version}-mysql" \
     "php${php_version}-opcache" \
     "php${php_version}-soap" \
@@ -49,6 +48,15 @@ installPhp() {
   logDebug "Output: ${apt_output}"
   if [[ ${apt_return} -ne 0 ]]; then
     return 1
+  fi
+
+  if ! versionGTE "${php_version}" "7.3"; then
+      apt_output=$(apt-get -y install "php${php_version}-mcrypt" 2>&1)
+      apt_return=$?
+      logDebug "Output: ${apt_output}"
+      if [[ ${apt_return} -ne 0 ]]; then
+        return 1
+      fi
   fi
 
   echo "session.gc_maxlifetime = 86400" >"/etc/php/${php_version}/mods-available/session_lifetime.ini"

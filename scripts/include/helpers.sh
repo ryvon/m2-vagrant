@@ -145,6 +145,14 @@ getAppVersion() {
   echo "${app_version_number}"
 }
 
+versionGTE() {
+  # https://stackoverflow.com/a/24067243
+  local lowest_version="$(printf '%s\n' "$@" | sort -V | head -n 1)"
+  if [[ "${lowest_version}" != "$2" ]]; then
+    return 1
+  fi
+}
+
 testUrl() {
   local label=$1
   local check_host=$2
