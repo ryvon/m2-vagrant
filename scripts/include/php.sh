@@ -50,7 +50,7 @@ installPhp() {
     return 1
   fi
 
-  if ! versionGTE "${php_version}" "7.3"; then
+  if ! versionGTE "${php_version}" "7.2"; then
       apt_output=$(apt-get -y install "php${php_version}-mcrypt" 2>&1)
       apt_return=$?
       logDebug "Output: ${apt_output}"
