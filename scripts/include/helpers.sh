@@ -145,6 +145,14 @@ getAppVersion() {
   echo "${app_version_number}"
 }
 
+versionGTE() {
+  # https://stackoverflow.com/a/24067243
+  local lowest_version="$(printf '%s\n' "$@" | sort -V | head -n 1)"
+  if [[ "${lowest_version}" != "$2" ]]; then
+    return 1
+  fi
+}
+
 testUrl() {
   local label=$1
   local check_host=$2
@@ -159,7 +167,7 @@ testUrl() {
 
   curl_cookie_file=$(mktemp)
   curl_error_file=$(mktemp)
-  curl_response="$(curl --silent --show-error --location --insecure --max-time 10 --connect-timeout 5 \
+  curl_response="$(curl --silent --show-error --location --insecure --max-time 20 --connect-timeout 5 \
     --cookie "${curl_cookie_file}" --header "Host: ${pretend_host}" \
     "https://${check_host}/${check_uri}" 2>"${curl_error_file}")"
 

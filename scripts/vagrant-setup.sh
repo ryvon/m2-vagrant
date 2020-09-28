@@ -25,13 +25,17 @@ updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "1G" || exit 1
 installApache || exit 1
-installMysql || exit 1
+installMariadb "${MARIADB_VERSION}" || exit 1
 installPhp "${PHP_VERSION}" || exit 1
 installMailhog "${VAGRANT_ROOT}/etc/mailhog" "${PHP_VERSION}" || exit 1
 installComposer || exit 1
 installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
+
+if [[ -n "${MAGENTO_REPO_VERSION}" ]] && versionGTE "${MAGENTO_REPO_VERSION}" "2.4"; then
+  installElasticsearch || exit 1
+fi
 
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
 if [[ -f "${composer_auth_file}" ]]; then
@@ -47,7 +51,7 @@ if [[ -n "${MAGENTO_SAMPLE_DATA_ARCHIVE}" ]] && [[ ! -f "${VAGRANT_ROOT}/${MAGEN
 fi
 
 if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
-  configureMysqlForMagento "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
+  configureMariadbForMagento "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
   configureApacheForMagento "${VAGRANT_ROOT}/etc/apache" "${VAGRANT_HOSTNAME}" "${APACHE_DOCUMENT_ROOT}" || exit 1
 
   prepareForMagentoInstall || exit 1

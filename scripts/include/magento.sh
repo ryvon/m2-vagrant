@@ -25,15 +25,15 @@ createMagentoDatabase() {
   runCommand mysql -u root -e "FLUSH PRIVILEGES;" || return 1
 }
 
-configureMysqlForMagento() {
+configureMariadbForMagento() {
   local mysql_database=$1
   local mysql_user=$2
   local mysql_password=$3
 
-  logGroup "Configuring mysql-server for Magento"
+  logGroup "Configuring mariadb-server for Magento"
 
-  if [[ -z "$(getMysqlVersion)" ]]; then
-    logError "mysql-server not found to configure"
+  if [[ -z "$(getMariadbVersion)" ]]; then
+    logError "mariadb-server not found to configure"
     return 0
   fi
 
@@ -42,12 +42,12 @@ configureMysqlForMagento() {
     echo "[mysqld]" >/etc/mysql/conf.d/magento.cnf
     echo "innodb_buffer_pool_size=1G" >>/etc/mysql/conf.d/magento.cnf
 
-    logInfo "Restarting MySQL"
+    logInfo "Restarting MariaDB"
     runCommand service mysql restart || return 1
   fi
 
   if grep -q "${mysql_database}" <<<"$(mysql -u "${mysql_user}" -p"${mysql_password}" -sse "show databases;" 2>/dev/null)"; then
-    logInfo "mysql-server already configured"
+    logInfo "mariadb-server already configured"
     return 0
   fi
 
@@ -266,8 +266,15 @@ configureMagento() {
     runCommand su vagrant -c "${magento_bin} config:set web/secure/base_media_url   '${MAGENTO_BASE_MEDIA_URL}'" || return 1
   fi
 
-  logInfo "Disabling Recaptcha"
-  runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
+  if [[ -n "${MAGENTO_REPO_VERSION}" ]]; then
+    logInfo "Disabling Recaptcha"
+
+    if versionGTE "${MAGENTO_REPO_VERSION}" "2.4"; then
+      runCommand su vagrant -c "${magento_bin} security:recaptcha:disable-for-user-login" || return 1
+    else
+      runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
+    fi
+  fi
 
   logInfo "Enabling cache"
   runCommand su vagrant -c "${magento_bin} cache:enable" || return 1
