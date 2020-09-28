@@ -266,8 +266,15 @@ configureMagento() {
     runCommand su vagrant -c "${magento_bin} config:set web/secure/base_media_url   '${MAGENTO_BASE_MEDIA_URL}'" || return 1
   fi
 
-  logInfo "Disabling Recaptcha"
-  runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
+  if [[ -n "${MAGENTO_REPO_VERSION}" ]]; then
+    logInfo "Disabling Recaptcha"
+
+    if versionGTE "${MAGENTO_REPO_VERSION}" "2.4"; then
+      runCommand su vagrant -c "${magento_bin} security:recaptcha:disable-for-user-login" || return 1
+    else
+      runCommand su vagrant -c "${magento_bin} msp:security:recaptcha:disable" || return 1
+    fi
+  fi
 
   logInfo "Enabling cache"
   runCommand su vagrant -c "${magento_bin} cache:enable" || return 1
