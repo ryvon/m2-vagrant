@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 restartServices() {
+  local magento_version=$1
+
   logGroup "Restarting services"
 
   logInfo "Restarting mailhog"
@@ -11,6 +13,11 @@ restartServices() {
 
   logInfo "Restarting mysql"
   runCommand service mysql restart || return 1
+
+  if [[ -n "${magento_version}" ]] && versionGTE "${magento_version}" "2.4"; then
+    logInfo "Restarting elasticsearch"
+    runCommand service elasticsearch restart || return 1
+  fi
 }
 
 updateSystem() {

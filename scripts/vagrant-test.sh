@@ -5,7 +5,7 @@ export VAGRANT_ROOT='/vagrant'
 # shellcheck source=./include/bootstrap.sh
 . "${VAGRANT_ROOT}/scripts/include/bootstrap.sh" "$@" || exit 1
 
-restartServices || exit 1
+restartServices "${MAGENTO_REPO_VERSION}" || exit 1
 
 check_host="${VAGRANT_HOSTNAME}"
 

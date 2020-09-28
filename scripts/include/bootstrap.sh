@@ -48,3 +48,6 @@ export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
 
 # shellcheck source=./letsencrypt.sh
 . "${SCRIPTS_ROOT}/include/letsencrypt.sh" || return 1
+
+# shellcheck source=./elasticsearch.sh
+. "${SCRIPTS_ROOT}/include/elasticsearch.sh" || return 1
