@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 
-getMysqlVersion() {
+getMariadbVersion() {
   getAppVersion "mysql" "--version" 'Distrib' 's/.*Distrib \([A-Za-z0-9\.-]*\).*/\1/'
   return $?
 }
 
-installMysql() {
-  logGroup "Installing mysql-server"
+installMariadb() {
+  local version=$1
 
-  existing_version=$(getMysqlVersion)
+  logGroup "Installing mariadb-server-${version}"
+
+  existing_version=$(getMariadbVersion)
   if [[ -n "${existing_version}" ]]; then
-    logInfo "mysql-server already installed (${existing_version})"
+    logInfo "mariadb-server already installed (${existing_version})"
     return 0
   fi
 
-  runCommand apt-get -y install mysql-server || return 1
+  curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash -s -- \
+    --mariadb-server-version="mariadb-${version}" 2>/dev/null || return 1
+  runCommand apt-get -y install "mariadb-server-${version}" || return 1
 }
 
 importDatabase() {

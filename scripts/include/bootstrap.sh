@@ -34,8 +34,8 @@ export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
 # shellcheck source=./apache.sh
 . "${SCRIPTS_ROOT}/include/apache.sh" || return 1
 
-# shellcheck source=./mysql.sh
-. "${SCRIPTS_ROOT}/include/mysql.sh" || return 1
+# shellcheck source=./mariadb.sh
+. "${SCRIPTS_ROOT}/include/mariadb.sh" || return 1
 
 # shellcheck source=./php.sh
 . "${SCRIPTS_ROOT}/include/php.sh" || return 1
