@@ -18,7 +18,7 @@ getGulpVersion() {
 installNodeJs() {
   local major_version=$1
 
-  logGroup "Installing nodejs v${major_version}.x"
+  logGroup "Installing nodejs-${major_version}.x"
 
   local existing_version
   existing_version=$(getNodeVersion)
