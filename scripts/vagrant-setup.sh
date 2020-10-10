@@ -23,7 +23,7 @@ fi
 
 updateSystem || exit 1
 installSystemTools || exit 1
-installSwapFile "/var/swap.1" "1G" || exit 1
+installSwapFile "/var/swap.1" "${SWAP_SIZE}" || exit 1
 installApache || exit 1
 installMariadb "${MARIADB_VERSION}" || exit 1
 installPhp "${PHP_VERSION}" || exit 1

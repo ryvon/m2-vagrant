@@ -22,6 +22,10 @@ export VAGRANT_FORWARD_PORT_HTTPS=18043
 # host machine
 #export VAGRANT_PUBLIC=true
 
+### Swap settings
+
+export SWAP_SIZE="1G"
+
 ### Magento settings
 
 # Absolute path to the Magento installation
