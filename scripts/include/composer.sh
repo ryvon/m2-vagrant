@@ -29,9 +29,9 @@ installComposer() {
     return 1
   fi
 
-  if ! runCommand php composer-setup.php; then
+  if ! runCommand php composer-setup.php --version=1.10.16; then
     rm composer-setup.php
-    logError "Invalid composer installer signature"
+    logError "Composer setup failed"
     return 1
   fi
 
