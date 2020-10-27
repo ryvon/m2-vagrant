@@ -32,10 +32,7 @@ installComposer || exit 1
 installNodeJs "10" || exit 1
 installGruntCli || exit 1
 installGulp || exit 1
-
-if [[ -n "${MAGENTO_REPO_VERSION}" ]] && versionGTE "${MAGENTO_REPO_VERSION}" "2.4"; then
-  installElasticsearch || exit 1
-fi
+installElasticsearch || exit 1
 
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
 if [[ -f "${composer_auth_file}" ]]; then

@@ -276,6 +276,9 @@ configureMagento() {
     fi
   fi
 
+  logInfo "Setting search engine to elasticsearch7"
+  runCommand su vagrant -c "${magento_bin} config:set catalog/search/engine 'elasticsearch7'" || return 1
+
   logInfo "Enabling cache"
   runCommand su vagrant -c "${magento_bin} cache:enable" || return 1
   runCommand su vagrant -c "${magento_bin} cache:flush" || return 1
