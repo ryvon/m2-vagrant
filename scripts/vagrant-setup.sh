@@ -35,6 +35,13 @@ installGruntCli || exit 1
 installGulp || exit 1
 installElasticsearch || exit 1
 
+if [[ "${MAGENTO_SETUP_MFTF}" == true ]]; then
+  installJre || exit 1
+  installSelenium || exit 1
+  installChrome || exit 1
+  installChromeDriver || exit 1
+fi
+
 composer_auth_file="${VAGRANT_ROOT}/etc/composer/auth.json"
 if [[ -f "${composer_auth_file}" ]]; then
   installComposerAuth "${composer_auth_file}" "/home/vagrant/.composer/auth.json" "vagrant" || exit 1
@@ -61,7 +68,8 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   fi
 
   if [[ -n "${MAGENTO_IMPORT_DATABASE}" ]]; then
-    installMagentoDatabaseImport "${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
+    installMagentoDatabaseImport "${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" \
+      "${MYSQL_PASSWORD}" || exit 1
   else
     installMagentoDatabaseSetup "${MAGENTO_DOCUMENT_ROOT}" "${MAGENTO_BASE_URL}" "${MAGENTO_ADMIN_URI}" \
       "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
@@ -72,6 +80,11 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
 
   finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
+
+  if [[ "${MAGENTO_SETUP_MFTF}" == true ]]; then
+    configureMftf "${MAGENTO_DOCUMENT_ROOT}" "${MAGENTO_BASE_URL}" "${MAGENTO_ADMIN_URI}" "${MAGENTO_ADMIN_USER}" \
+      "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_REPO_VERSION}" "${MAGENTO_OTP_SHARED_SECRET}" || exit 1
+  fi
 fi
 
 if [[ "${APACHE_USE_LETSENCRYPT}" == true ]]; then

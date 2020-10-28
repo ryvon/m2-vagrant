@@ -52,7 +52,12 @@ export MAGENTO_SAMPLE_DATA_ARCHIVE="source/magento-sample-data-${MAGENTO_SAMPLE_
 # If specified this database will be imported instead of running setup:install, path relative to m2-vagrant directory
 #export MAGENTO_IMPORT_DATABASE="source/database.tar.gz"
 
+export MAGENTO_SETUP_MFTF=false
 export MAGENTO_ENABLE_CRONJOBS=true
+
+# If specified this will be used to configure 2FA while setting up MFTF, it should be base32 encoded
+# The value below is "MAGENTO_OTP_SHARED_SECRET" base32 encoded
+export MAGENTO_OTP_SHARED_SECRET=JVAUORKOKRHV6T2UKBPVGSCBKJCUIX2TIVBVERKU
 
 # Set either to false to disable.  Leaving it blank will set the path to blank.
 export MAGENTO_BASE_STATIC_URL=""
@@ -61,7 +66,12 @@ export MAGENTO_BASE_MEDIA_URL=""
 ### Apache settings
 
 # Absolute path to the Apache document root
-export APACHE_DOCUMENT_ROOT="/var/www/html/pub"
+export APACHE_DOCUMENT_ROOT="${MAGENTO_DOCUMENT_ROOT}/pub"
+
+# If using MFTF the document root must be the install directory instead of pub so it has access to run commands
+if [[ "${MAGENTO_SETUP_MFTF}" == true ]]; then
+  export APACHE_DOCUMENT_ROOT="${MAGENTO_DOCUMENT_ROOT}"
+fi
 
 # To use this VAGRANT_FORWARD_PORTS or VAGRANT_PUBLIC must be enabled and the Vagrant machine must be publicly
 # accessible at http://$VAGRANT_HOSTNAME/ for the LetsEncrypt servers to authenticate the certificate

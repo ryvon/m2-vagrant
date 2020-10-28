@@ -123,10 +123,11 @@ getAppVersion() {
     return 1
   fi
 
+  # We pipe stderr to stdout due to 'java -version' outputting to stderr
   if [[ "${app_run_as_vagrant}" == true ]]; then
-    app_version=$(su vagrant -c "${app_path} ${app_version_switch}")
+    app_version=$(su vagrant -c "${app_path} ${app_version_switch}" 2>&1)
   else
-    app_version=$("${app_path}" "${app_version_switch}")
+    app_version=$("${app_path}" "${app_version_switch}" 2>&1)
   fi
 
   if [[ "${output_grep}" != false ]] && [[ -n "${output_grep}" ]]; then

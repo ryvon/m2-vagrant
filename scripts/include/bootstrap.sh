@@ -28,6 +28,9 @@ export DEBIAN_FRONTEND=noninteractive # https://serverfault.com/a/670688
 # shellcheck source=./magento.sh
 . "${SCRIPTS_ROOT}/include/magento.sh" || return 1
 
+# shellcheck source=./mftf.sh
+. "${SCRIPTS_ROOT}/include/mftf.sh" || return 1
+
 # shellcheck source=./node.sh
 . "${SCRIPTS_ROOT}/include/node.sh" || return 1
 
