@@ -79,7 +79,11 @@ export APACHE_USE_LETSENCRYPT=false
 
 ### PHP settings
 
-export PHP_VERSION="7.4"
+if [[ "${MAGENTO_REPO_VERSION%.*}" == "2.4" ]]; then
+  export PHP_VERSION="7.4"
+else
+  export PHP_VERSION="7.3"
+fi
 
 ### MySQL settings
 
