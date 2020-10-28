@@ -19,15 +19,8 @@ runCommand service apache2 restart || exit 1
 logInfo "Restarting mysql"
 runCommand service mysql restart || exit 1
 
-check_host="${VAGRANT_HOSTNAME}"
-
-# Use the IP with the hosts header if possible in case the host not resolvable by Vagrant.
-if [[ -n "${VAGRANT_IP}" ]]; then
-  check_host="${VAGRANT_IP}"
-fi
-
 logGroup "Checking services"
 
-testUrl "MailHog: " "${check_host}" "mailhog" "MailHog" "${VAGRANT_HOSTNAME}"
-testUrl "Frontend:" "${check_host}" "" "var BASE_URL = '" "${VAGRANT_HOSTNAME}"
-testUrl "Admin:   " "${check_host}" "${MAGENTO_ADMIN_URI}" "Magento Commerce Inc." "${VAGRANT_HOSTNAME}"
+testUrl "MailHog: " "${MAGENTO_BASE_URL}mailhog" "MailHog"
+testUrl "Frontend:" "${MAGENTO_BASE_URL}" "var BASE_URL = '"
+testUrl "Admin:   " "${MAGENTO_BASE_URL}${MAGENTO_ADMIN_URI}" "Magento Commerce Inc."

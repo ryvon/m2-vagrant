@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+updateHostsFile() {
+  local hostname=$1
+
+  local hosts_entry="127.0.0.1 ${hostname}"
+  local existing_entry
+  existing_entry=$(cat /etc/hosts | grep "${hosts_entry}")
+
+  if [[ -n "${existing_entry}" ]]; then
+    return 0
+  fi
+
+  logGroup "Adding hosts entry for ${hostname} -> 127.0.0.1"
+
+  echo "${hosts_entry}" >> /etc/hosts
+}
+
 updateSystem() {
   logGroup "Updating system"
 

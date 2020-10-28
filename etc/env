@@ -31,6 +31,7 @@ export SWAP_SIZE="1G"
 # Absolute path to the Magento installation
 export MAGENTO_DOCUMENT_ROOT="/var/www/html"
 
+export MAGENTO_BASE_URL="http://${VAGRANT_HOSTNAME}/"
 export MAGENTO_ADMIN_URI="dev_admin"
 export MAGENTO_ADMIN_EMAIL="admin@example.com"
 export MAGENTO_ADMIN_USER="admin"

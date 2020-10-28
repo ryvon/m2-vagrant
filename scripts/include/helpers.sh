@@ -155,10 +155,8 @@ versionGTE() {
 
 testUrl() {
   local label=$1
-  local check_host=$2
-  local check_uri=$3
-  local check_content=$4
-  local pretend_host=$5
+  local check_url=$2
+  local check_content=$3
 
   local curl_error_file
   local curl_cookie_file
@@ -168,25 +166,24 @@ testUrl() {
   curl_cookie_file=$(mktemp)
   curl_error_file=$(mktemp)
   curl_response="$(curl --silent --show-error --location --insecure --max-time 20 --connect-timeout 5 \
-    --cookie "${curl_cookie_file}" --header "Host: ${pretend_host}" \
-    "https://${check_host}/${check_uri}" 2>"${curl_error_file}")"
+    --cookie "${curl_cookie_file}" "${check_url}" 2>"${curl_error_file}")"
 
   curl_error=$(cat "${curl_error_file}")
   rm "${curl_error_file}"
   rm "${curl_cookie_file}"
 
   if [[ -n "${curl_error}" ]]; then
-    logError "${label} $(printf '%-40s' "https://${pretend_host}/${check_uri}") Failed to fetch: ${curl_error}"
+    logError "${label} $(printf '%-40s' "${check_url}") Failed to fetch: ${curl_error}"
     return 1
   fi
 
   if [[ ${curl_response} =~ ${check_content} ]]; then
-    logSuccess "${label} https://${pretend_host}/${check_uri}"
+    logSuccess "${label} ${check_url}"
     return 0
   fi
 
-  logError "${label} $(printf '%-35s' "https://${pretend_host}/${check_uri}") Expected content not found"
-  logDebug "https://${pretend_host}/${check_uri} content: ${curl_response}"
+  logError "${label} $(printf '%-35s' "${check_url}") Expected content not found"
+  logDebug "${check_url} content: ${curl_response}"
   return 1
 }
 

@@ -21,6 +21,7 @@ if [[ -n "${VAGRANT_SSH_KEY}" ]]; then
   installSshKey "/home/vagrant/.ssh" "${VAGRANT_ROOT}/${VAGRANT_SSH_KEY}" || exit 1
 fi
 
+updateHostsFile "${VAGRANT_HOSTNAME}" || exit 1
 updateSystem || exit 1
 installSystemTools || exit 1
 installSwapFile "/var/swap.1" "${SWAP_SIZE}" || exit 1
@@ -62,12 +63,12 @@ if [[ -n "${MAGENTO_ARCHIVE}" ]]; then
   if [[ -n "${MAGENTO_IMPORT_DATABASE}" ]]; then
     installMagentoDatabaseImport "${VAGRANT_ROOT}/${MAGENTO_IMPORT_DATABASE}" "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
   else
-    installMagentoDatabaseSetup "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
+    installMagentoDatabaseSetup "${MAGENTO_DOCUMENT_ROOT}" "${MAGENTO_BASE_URL}" "${MAGENTO_ADMIN_URI}" \
       "${MAGENTO_ADMIN_EMAIL}" "${MAGENTO_ADMIN_USER}" "${MAGENTO_ADMIN_PASSWORD}" "${MAGENTO_TIMEZONE}" \
       "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
   fi
 
-  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "https://${VAGRANT_HOSTNAME}/" "${MAGENTO_ADMIN_URI}" \
+  configureMagento "${MAGENTO_DOCUMENT_ROOT}" "${MAGENTO_BASE_URL}" "${MAGENTO_ADMIN_URI}" \
     "${MYSQL_DATABASE}" "${MYSQL_USER}" "${MYSQL_PASSWORD}" || exit 1
 
   finishMagentoInstall "${MAGENTO_DOCUMENT_ROOT}" || exit 1
