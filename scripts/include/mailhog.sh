@@ -14,7 +14,7 @@ configureApacheForMailhog() {
   # Use the macro in any enabled sites
   find /etc/apache2/sites-enabled/ -type l | while read -r enabled_site; do
     if ! grep -q "VHostProxyMailhog" "${enabled_site}"; then
-      runCommand sed --follow-symlinks -i "s|DocumentRoot \\(.*\\)|DocumentRoot \\1\\n\\tUse VHostProxyMailhog|" "${enabled_site}" || return 1
+      runCommand sed --follow-symlinks -i "s|DocumentRoot \\(.*\\)|DocumentRoot \\1\\n\    Use VHostProxyMailhog|" "${enabled_site}" || return 1
     fi
   done
 }
