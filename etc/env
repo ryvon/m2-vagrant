@@ -42,7 +42,7 @@ export MAGENTO_TIMEZONE="America/New_York"
 # These settings are used to download Magento if the archives below are specified and do not exist
 export MAGENTO_REPO_NAME="magento/project-community-edition"
 export MAGENTO_REPO_URL="https://repo.magento.com/"
-export MAGENTO_REPO_VERSION="2.4.0"
+export MAGENTO_REPO_VERSION="2.4.1"
 export MAGENTO_SAMPLE_DATA_VERSION="${MAGENTO_REPO_VERSION%.*}" # Strip repo version to major.minor
 
 # Comment out to disable Magento or sample data installation, paths relative to m2-vagrant directory
