@@ -6,7 +6,7 @@ A Vagrant box for Magento 2 development.  Requires the VirtualBox provider.
 
 1. Install [Vagrant](https://www.vagrantup.com/)
 2. Clone the repository
-3. Configure `app/etc` and `etc/composer/auth.json`
+3. Configure `etc/env` and `etc/composer/auth.json`
 4. Run `vagrant up` from the clone directory
 
 If `MAGENTO_ARCHIVE` or `MAGENTO_SAMPLE_DATA_ARCHIVE` is defined but does not exist the provisioning script will attempt
